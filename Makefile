@@ -4,7 +4,6 @@ TEXMFHOME = $(shell kpsewhich -var-value=TEXMFHOME)
 
 README   = README.md
 DOCFILES = biblatex-sbl.bib\
-	   biblatex-sbl.pdf \
 	   biblatex-sbl-handbook-examples.tex \
 	   biblatex-sbl-handbook-examples.pdf \
 	   biblatex-sbl-studentsupplement-examples.tex \
