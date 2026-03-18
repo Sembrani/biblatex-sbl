@@ -8,7 +8,6 @@ Completed box being shipped out [1]
 ..\vbox(0.0+0.0)x0.0, glue set 72.26999fil, direction TLT
 ...\kern-72.26999
 ...\hbox(0.0+0.0)x0.0, direction TLT
-....\latelua0{ltx.__pdf.backend_ThisPage_gpush(tex.count["g_shipout_readonly_int"])}
 ....\glue 0.0 plus 1.0fil minus 1.0fil
 ...\glue 0.0 plus 1.0fil minus 1.0fil
 .\vbox(0.0+0.0)x0.0, glue set - 14.99626fil, direction TLT
@@ -35,7 +34,7 @@ Completed box being shipped out [1]
 .....\pdfcolorstack 0 pop
 ...\glue 25.0
 ...\glue(\lineskip) 0.0
-...\vbox(550.0+0.0)x345.0, glue set 158.11809fil, direction TLT
+...\vbox(550.0+0.0)x345.0, glue set 169.97682fil, direction TLT
 ....\write-{}
 ....\pdfdest name{Doc-Start} xyz
 ....\glue(\topskip) 0.42401
@@ -147,7 +146,7 @@ Completed box being shipped out [1]
 .......\penalty 10000
 .......\hbox(0.0+0.0)x0.0, direction TLT
 ........\hbox(0.0+0.0)x0.0, shifted -12.0, direction TLT
-.........\pdfdest name{cite.0:shorttitle:1\176Apol.} xyz
+.........\pdfdest name{cite.0:shorttitle:1~Apol.} xyz
 .........\penalty 10000
 .......\TU/Brill(0)/m/it/10 1
 .......\penalty 10000
@@ -222,7 +221,7 @@ Completed box being shipped out [1]
 .......\penalty 10000
 .......\hbox(0.0+0.0)x0.0, direction TLT
 ........\hbox(0.0+0.0)x0.0, shifted -12.0, direction TLT
-.........\pdfdest name{cite.0:shorttitle:1\176En.} xyz
+.........\pdfdest name{cite.0:shorttitle:1~En.} xyz
 .........\penalty 10000
 .......\TU/Brill(0)/m/n/10 1
 .......\penalty 10000
@@ -964,7 +963,7 @@ Completed box being shipped out [1]
 ....\glue(\parskip) 0.0
 ....\glue(\parskip) 0.0
 ....\glue(\baselineskip) 5.21
-....\hbox(6.65+2.47)x282.05002, glue set 22.92003fil, shifted 62.94998, direction TLT
+....\hbox(6.65+2.47)x282.05002, glue set - 0.0386, shifted 62.94998, direction TLT
 .....\localpar
 ......\localinterlinepenalty=0
 ......\localbrokenpenalty=0
@@ -1068,21 +1067,6 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\TU/Brill(0)/m/n/10 N
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 w
-.....\glue(\spaceskip) 1.78 plus 0.99 minus 0.66
-.....\TU/Brill(0)/m/n/10 Y
-.....\kern-0.8 (font)
-.....\TU/Brill(0)/m/n/10 o
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 k
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 25000
-....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x282.05002, glue set 110.40001fil, shifted 62.94998, direction TLT
 .....\TU/Brill(0)/m/n/10 D
 .....\TU/Brill(0)/m/n/10 o
 .....\TU/Brill(0)/m/n/10 u
@@ -2028,7 +2012,6 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty -51
 ....\glue 10.0 plus 3.0 minus 5.0
-....\glue -0.14
 ....\glue 0.0 plus 1.0fil
 ....\glue 0.0
 ....\glue 0.0 plus 0.0001fil
@@ -2039,10 +2022,9 @@ Completed box being shipped out [1]
 ....\pdfcolorstack 0 pop
 .\kern0.0
 .\kern0.0
-.\kern-633.0
-.\hbox(0.0+0.0)x0.0, direction TLT
-.\kern633.0
 (biblatex-sbl_8a.aux)
+Package rerunfilecheck Info: File `biblatex-sbl_8a.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package biblatex Warning: Please rerun LaTeX.
 (biblatex)                Page breaks have changed.
 Package logreq Info: Writing requests to 'biblatex-sbl_8a.run.xml'.

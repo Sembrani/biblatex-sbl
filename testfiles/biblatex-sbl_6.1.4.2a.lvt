@@ -10,9 +10,9 @@
 \begin{document}
 \START
 \showoutput
-\cite{partain:1995}
+\cite{hamori+stokl:2018}
 
-\cite[175]{partain:1995}
+\cite{hamori+stokl:2018}
 \printbibliography
 \printbiblist{abbreviations}
 \end{document}

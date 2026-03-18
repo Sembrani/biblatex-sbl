@@ -1,4 +1,4 @@
-\DocumentMetadata{lang=en}
+\RequirePackage{pdfmanagement}
 \documentclass[a4paper]{article}
 
 \input{biblatex-sbl-examples-preamble.tex}
@@ -16,6 +16,33 @@
 \end{abstract}
 
 \tableofcontents
+
+\section{Publisher Locations (5 December 2025)}
+
+\begin{verbatim}
+@book{hamori+stokl:2018,
+  author = {Hamori, Esther J. and Stökl, Jonathan},
+  title = {Perchance to Dream: Dream Divination in the Bible and the Ancient Near
+           East},
+  series = {Ancient Near East Monographs},
+  shortseries = {ANEM},
+  number = {21},
+  location = {Atlanta},
+  publisher = {SBL Press},
+  date = {2018}
+}
+\end{verbatim}
+
+\examplecite(1){hamori+stokl:2018}
+\exampleabbreviations
+\examplebibliography
+\examplereferences{https://sblhs2.com/2025/12/05/publisher-locations/}
+
+\subsection{Notes}
+
+This change renders the majority of prior examples on the blog and in the
+handbook incorrect. The \pkg{biblatex-sbl} documentation and example files
+now omit the location for all examples as required.
 
 \section{\emph{Brill Dictionary of Ancient Greek} (20 April 2021)}
 
@@ -4190,8 +4217,7 @@ handbook (as in the case of the \citetitle*{treu} above).
   edition = {3},
   location = {Leiden},
   publisher = {Brill},
-  year = {1995, 2004},
-  sortyear = {1995},
+  date = {1995/2004},
   pagination = {subverbo},
   langid = {german}
 }
@@ -4351,7 +4377,6 @@ handbook (as in the case of the \citetitle*{treu} above).
 }
 \end{verbatim}
 
-
 \examplecite(17)[ἐνθύημα]{LEH}
 \examplevolcite(21){20}[ubšukkinakku]{CAD}
 \examplecite(17)[ἐνθύημα, λεαίνω]{LEH}
@@ -4384,6 +4409,11 @@ handbook (as in the case of the \citetitle*{treu} above).
 \end{verbcite}
 \exampleabbreviations
 \examplereferences{https://sblhs2.com/2017/03/30/citing-reference-works-2-lexica/}
+
+\subsection{Notes}
+
+\pkg{biblatex} does not cope well with malformed dates, so use
+\verb+date = {1995/2004}+ for \cite{HAL} which is standard.
 
 \section{Citing a Chapter from a Single-Authored Work (23 March 2017)}
 
@@ -5468,7 +5498,7 @@ H., ed.” for the bibliography format of this reference.
   entrysubtype = {blog},
   title = {Formatting Titles},
   website = {SBL Handbook of Style},
-  date = {2016/10/27},
+  date = {2016-10-27},
   url = {https://sblhs2.com/2016/10/27/formatting-titles/}
 }
 

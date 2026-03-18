@@ -8,7 +8,6 @@ Completed box being shipped out [1]
 ..\vbox(0.0+0.0)x0.0, glue set 72.26999fil, direction TLT
 ...\kern-72.26999
 ...\hbox(0.0+0.0)x0.0, direction TLT
-....\latelua0{ltx.__pdf.backend_ThisPage_gpush(tex.count["g_shipout_readonly_int"])}
 ....\glue 0.0 plus 1.0fil minus 1.0fil
 ...\glue 0.0 plus 1.0fil minus 1.0fil
 .\vbox(0.0+0.0)x0.0, glue set - 14.99626fil, direction TLT
@@ -35,7 +34,7 @@ Completed box being shipped out [1]
 .....\pdfcolorstack 0 pop
 ...\glue 25.0
 ...\glue(\lineskip) 0.0
-...\vbox(550.0+0.0)x345.0, glue set 171.0017fil, direction TLT
+...\vbox(550.0+0.0)x345.0, glue set 204.5281fil, direction TLT
 ....\write-{}
 ....\pdfdest name{Doc-Start} xyz
 ....\glue(\topskip) 3.35
@@ -187,7 +186,7 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 300
 ....\glue(\baselineskip) 2.85
-....\hbox(6.68+2.5)x345.0, glue set 18.80002fil, direction TLT
+....\hbox(6.68+2.5)x345.0, glue set 42.24501fil, direction TLT
 .....\TU/Brill(0)/m/n/10 F
 .....\kern-0.15 (font)
 .....\TU/Brill(0)/m/n/10 r
@@ -211,8 +210,8 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 g
 .....\TU/Brill(0)/m/n/10 ,
 .....\glue(\spaceskip) 1.98 plus 1.2375 minus 0.528
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -222,20 +221,6 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 1
 .....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 (
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\spaceskip) 2.64 plus 1.98001 minus 0.33
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 m
@@ -401,8 +386,8 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 g
 .....\TU/Brill(0)/m/n/10 ,
 .....\glue(\spaceskip) 1.98 plus 1.2375 minus 0.528
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A0074003A0031003A0043004800430031> } action goto name{cite.0:t:1:CHC1}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:t:1:CHC1}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/it/10 O
 .....\TU/Brill(0)/m/it/10 r
 .....\kern-0.1 (font)
@@ -596,7 +581,7 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 300
 ....\glue(\baselineskip) 2.85
-....\hbox(6.68+2.5)x345.0, glue set 6.06502fil, direction TLT
+....\hbox(6.68+2.5)x345.0, glue set 29.51001fil, direction TLT
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 n
 .....\TU/Brill(0)/m/n/10 d
@@ -637,8 +622,8 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 ,
 .....\glue(\spaceskip) 1.98 plus 1.2375 minus 0.528
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -648,20 +633,6 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 2
 .....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 (
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\spaceskip) 2.64 plus 1.98001 minus 0.33
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 m
@@ -823,8 +794,8 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 ,
 .....\glue(\spaceskip) 1.98 plus 1.2375 minus 0.528
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A0074003A0031003A0043004800430032> } action goto name{cite.0:t:1:CHC2}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:t:1:CHC2}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/it/10 C
 .....\TU/Brill(0)/m/it/10 o
 .....\TU/Brill(0)/m/it/10 n
@@ -915,7 +886,7 @@ Completed box being shipped out [1]
 ....\glue(\parskip) 0.0
 ....\glue(\parskip) 0.0
 ....\glue(\baselineskip) 5.1484
-....\hbox(6.65+2.47)x330.0, glue set 4.45001fil, shifted 15.0, direction TLT
+....\hbox(6.65+2.47)x330.0, glue set 6.45001fil, shifted 15.0, direction TLT
 .....\localpar
 ......\localinterlinepenalty=0
 ......\localbrokenpenalty=0
@@ -1040,8 +1011,8 @@ Completed box being shipped out [1]
 .....\kern0.0 (italic)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -1063,24 +1034,10 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 g
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 25000
-....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 100.155fil, shifted 15.0, direction TLT
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
+....\glue(\baselineskip) 3.43
+....\hbox(6.1+2.47)x330.0, glue set 122.26999fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/n/10 U
 .....\TU/Brill(0)/m/n/10 n
 .....\TU/Brill(0)/m/n/10 i
@@ -1241,7 +1198,7 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 15000
 ....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 1.43002fil, shifted 15.0, direction TLT
+....\hbox(6.65+2.47)x330.0, glue set 3.43002fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/it/10 C
 .....\TU/Brill(0)/m/it/10 o
 .....\TU/Brill(0)/m/it/10 n
@@ -1330,8 +1287,8 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -1353,24 +1310,10 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 g
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 15000
-....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 99.94fil, shifted 15.0, direction TLT
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
+....\glue(\baselineskip) 3.42
+....\hbox(6.11+2.47)x330.0, glue set 122.055fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/n/10 U
 .....\TU/Brill(0)/m/n/10 n
 .....\TU/Brill(0)/m/n/10 i
@@ -1548,9 +1491,9 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 y
 .....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 15000
+....\penalty 25000
 ....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 5.39003fil, shifted 15.0, direction TLT
+....\hbox(6.65+2.47)x330.0, glue set 2.76001fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/n/10 A
 .....\kern-0.2 (font)
 .....\TU/Brill(0)/m/n/10 u
@@ -1619,8 +1562,8 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -1630,20 +1573,6 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\spaceskip) 1.98 plus 0.99495 minus 0.65671
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 m
@@ -1673,10 +1602,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 i
 .....\TU/Brill(0)/m/n/10 t
 .....\TU/Brill(0)/m/n/10 y
-.....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 15000
-....\glue(\baselineskip) 3.43
-....\hbox(6.1+1.81)x330.0, glue set 142.94fil, shifted 15.0, direction TLT
+.....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 P
 .....\TU/Brill(0)/m/n/10 r
 .....\kern-0.1 (font)
@@ -1700,7 +1626,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parskip) 0.0
 ....\glue(\parskip) 0.0
-....\glue(\baselineskip) 3.54001
+....\glue(\baselineskip) 2.88
 ....\hbox(6.65+2.47)x330.0, glue set 29.23001fil, shifted 15.0, direction TLT
 .....\localpar
 ......\localinterlinepenalty=0
@@ -1840,9 +1766,9 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 y
 .....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 15000
+....\penalty 25000
 ....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 3.05003fil, shifted 15.0, direction TLT
+....\hbox(6.65+2.47)x330.0, glue set 1.37502fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/n/10 M
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 r
@@ -1900,8 +1826,8 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -1911,20 +1837,6 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 1
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\spaceskip) 1.98 plus 0.99495 minus 0.65671
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 m
@@ -1954,10 +1866,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 i
 .....\TU/Brill(0)/m/n/10 t
 .....\TU/Brill(0)/m/n/10 y
-.....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 15000
-....\glue(\baselineskip) 3.42
-....\hbox(6.11+1.29)x330.0, glue set 142.725fil, shifted 15.0, direction TLT
+.....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 P
 .....\TU/Brill(0)/m/n/10 r
 .....\kern-0.1 (font)
@@ -1981,7 +1890,7 @@ Completed box being shipped out [1]
 ....\penalty 10000
 ....\glue(\parskip) 0.0
 ....\glue(\parskip) 0.0
-....\glue(\baselineskip) 4.06001
+....\glue(\baselineskip) 2.88
 ....\hbox(6.65+2.47)x330.0, glue set 41.54fil, shifted 15.0, direction TLT
 .....\localpar
 ......\localinterlinepenalty=0
@@ -2097,8 +2006,8 @@ Completed box being shipped out [1]
 .....\kern0.0 (italic)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -2110,21 +2019,7 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 25000
 ....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 76.82501fil, shifted 15.0, direction TLT
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\spaceskip) 1.98 plus 0.99495 minus 0.65671
+....\hbox(6.65+2.47)x330.0, glue set 99.94fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 m
@@ -2316,9 +2211,9 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 y
 .....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 15000
+....\penalty 25000
 ....\glue(\baselineskip) 2.88
-....\hbox(6.65+2.47)x330.0, glue set 5.39003fil, shifted 15.0, direction TLT
+....\hbox(6.65+2.47)x330.0, glue set 2.76001fil, shifted 15.0, direction TLT
 .....\TU/Brill(0)/m/n/10 A
 .....\kern-0.2 (font)
 .....\TU/Brill(0)/m/n/10 u
@@ -2387,8 +2282,8 @@ Completed box being shipped out [1]
 .....\kern-0.1 (font)
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\pdfstartlink(*+*)x* attr{/Border [0 0 0] /H /I /C [0.701176 0.4 0.414118] /Contents <FEFF0047006F00200074006F002000640065007300740069006E006100740069006F006E00200063006900740065002E0030003A00730068006F00720074007300650072006900650073003A004300480043> } action goto name{cite.0:shortseries:CHC}
-.....\pdfcolorstack 0 push {0.50196 0.0 0.02353 rg 0.50196 0.0 0.02353 RG}
+.....\pdfstartlink(*+*)x* attr{/Border[0 0 0]/H/I/C[0 1 0]} action goto name{cite.0:shortseries:CHC}
+.....\pdfcolorstack 0 push {0 1 0 rg 0 1 0 RG}
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 H
 .....\TU/Brill(0)/m/n/10 C
@@ -2398,20 +2293,6 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 .
 .....\glue(\spaceskip) 1.98 plus 0.99594 minus 0.65607
-.....\TU/Brill(0)/m/n/10 C
-.....\TU/Brill(0)/m/n/10 a
-.....\TU/Brill(0)/m/n/10 m
-.....\discretionary (penalty 50)
-......< \TU/Brill(0)/m/n/10 -
-.....\TU/Brill(0)/m/n/10 b
-.....\TU/Brill(0)/m/n/10 r
-.....\TU/Brill(0)/m/n/10 i
-.....\TU/Brill(0)/m/n/10 d
-.....\TU/Brill(0)/m/n/10 g
-.....\kern-0.1 (font)
-.....\TU/Brill(0)/m/n/10 e
-.....\TU/Brill(0)/m/n/10 :
-.....\glue(\spaceskip) 1.98 plus 0.99495 minus 0.65671
 .....\TU/Brill(0)/m/n/10 C
 .....\TU/Brill(0)/m/n/10 a
 .....\TU/Brill(0)/m/n/10 m
@@ -2441,10 +2322,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 i
 .....\TU/Brill(0)/m/n/10 t
 .....\TU/Brill(0)/m/n/10 y
-.....\glue(\rightskip) 0.0 plus 1.0fil
-....\penalty 15000
-....\glue(\baselineskip) 3.43
-....\hbox(6.1+1.81)x330.0, glue set 142.94fil, shifted 15.0, direction TLT
+.....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 P
 .....\TU/Brill(0)/m/n/10 r
 .....\kern-0.1 (font)
@@ -2464,15 +2342,15 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty -51
 ....\glue 10.0 plus 3.0 minus 5.0
-....\glue -11.81 plus -3.0 minus -5.0
+....\glue -12.47 plus -3.0 minus -5.0
 ....\penalty -300
-....\glue 1.81
+....\glue 2.47
 ....\glue 10.0 plus 3.0 minus 5.0
 ....\glue -10.0 plus -3.0 minus -5.0
 ....\glue 14.175 plus 4.05 minus 0.80998
 ....\glue(\parskip) 0.0 plus 1.0
 ....\glue(\parskip) 0.0
-....\glue(\baselineskip) 6.61401
+....\glue(\baselineskip) 5.95401
 ....\hbox(9.57599+0.2016)x345.0, glue set 132.18723fil, direction TLT
 .....\localpar
 ......\localinterlinepenalty=0
@@ -2596,7 +2474,6 @@ Completed box being shipped out [1]
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty -51
 ....\glue 10.0 plus 3.0 minus 5.0
-....\glue -2.47
 ....\glue 0.0 plus 1.0fil
 ....\glue 0.0
 ....\glue 0.0 plus 0.0001fil
@@ -2607,8 +2484,7 @@ Completed box being shipped out [1]
 ....\pdfcolorstack 0 pop
 .\kern0.0
 .\kern0.0
-.\kern-633.0
-.\hbox(0.0+0.0)x0.0, direction TLT
-.\kern633.0
 (biblatex-sbl_6.2.12l.aux)
+Package rerunfilecheck Info: File `biblatex-sbl_6.2.12l.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 Package logreq Info: Writing requests to 'biblatex-sbl_6.2.12l.run.xml'.
