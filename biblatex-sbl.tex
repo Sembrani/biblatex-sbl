@@ -1,34 +1,27 @@
 \RequirePackage{pdfmanagement}
 \documentclass[a4paper]{l3doc}
 
-\usepackage{microtype}
-\usepackage[american, bidi=basic]{babel}
-% \babelprovide[import, onchar=ids]{polytonicgreek}
-% \babelprovide[import, onchar=ids]{russian}
-% \babelprovide[import, onchar=ids fonts]{armenian}
-% \babelprovide[import, onchar=ids fonts]{hebrew}
-% \babelprovide[import, onchar=ids fonts]{syriac}
-\babelfont{rm}[Numbers=Lining]{Brill}
-\babelfont{tt}[Scale=MatchLowercase]{DejaVu Sans Mono}
-% \babelfont[armenian]{rm}[Scale=0.85]{Noto Serif Armenian}
-% \babelfont[hebrew]{rm}[Scale=MatchLowercase, Contextuals=Alternate]{SBL Hebrew}
-% \babelfont[syriac]{rm}[Scale=MatchLowercase]{Estrangelo Edessa}
-% \babelfont[hebrew]{tt}[Scale=MatchLowercase]{Miriam Libre Medium}
-% \babelfont[syriac]{tt}[Scale=0.85]{Noto Sans Syriac}
-\usepackage{csquotes}
-\usepackage[style=sbl]{biblatex}
-\addbibresource{biblatex-sbl.bib}
+\makeatletter
+\disable@package@load{parskip}{}
+\makeatother
 
-% allow lining figures in URLs
-\renewcommand*{\url}[1]{\href{#1}{#1}}
+\input{biblatex-sbl-examples-preamble.tex}
+
+\usepackage{multicol}
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+
+\makeatletter
 
 % SBL style footnotes
 \usepackage[bottom, ragged]{footmisc}
-\makeatletter
 \renewcommand*{\@makefntext}[1]{%
   \parindent \footnotemargin
   \@thefnmark . \enspace
   \footnotelayout #1}
+\renewcommand{\thempfootnote}{\arabic{mpfootnote}}
+
 % redefine \maketitle to better match \thanks footnote
 \renewcommand\maketitle{\par
   \begingroup
@@ -63,13 +56,41 @@
   \global\let\date\relax
   \global\let\and\relax
 }
+
+% redefine \tableofcontents for two column
+\AtBeginDocument{%
+  \renewcommand\tableofcontents{%
+    \section*{\contentsname
+      \@mkboth{%
+        \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}%
+    \begin{multicols}{2}%
+      \@starttoc{toc}%
+    \end{multicols}}}
+
 \makeatother
+
+\usepackage[skins]{tcolorbox}
+\newtcolorbox{sblexample}[1][]{%
+  bicolor, colframe=black, colback=black!15, colbacklower=white, left=2mm,
+  fonttitle=\normalsize\sffamily\bfseries,
+  subtitle style={before skip=3mm, after skip=3mm},
+  right=2mm, sidebyside, sidebyside gap=6mm, sidebyside align=top, lefthand
+  ratio=0.5, before skip=\bigskipamount, after skip=\bigskipamount, before
+  lower=\newrefsection\parindent 0pt\parskip\medskipamount\begin{NoHyper},
+  after lower=\end{NoHyper}\endrefsection, #1
+}
+\tcbset{%
+  no output/.style={standard, sidebyside=false},
+  no code/.style={standard, colback=white, sidebyside=false, before
+    upper=\newrefsection\parindent 0pt\parskip\medskipamount\begin{NoHyper},
+  after upper=\end{NoHyper}\endrefsection}
+}
 
 \begin{document}
 
 \title{The \pkg{biblatex-sbl} Package}
 \author{David Purton\thanks{Email: \url{dcpurton@marshwiggle.net}}}
-\date{2026-03-17 v2.0}
+\date{2026-04-04 v2.0rc1}
 
 \maketitle
 
@@ -109,12 +130,13 @@ A companion bundle of packages and classes are distributed separately to
 \pkg{biblatex-sbl}. These provide support for referencing Bible passages
 (\pkg{bibleref-sbl}), font set up (\pkg{sblfonts}), indexing (\pkg{sblidx}),
 term papers (\pkg{sblarticle}), theses (\pkg{sblreport}) and print ready books
-(\pkg{sblbook}).
+(\pkg{sblbook}). You may also find the \pkg{scripture} package helpful in
+formatting Bible quotations.
 
 This manual only covers custom features of \pkg{biblatex-sbl}. For general
 help with \pkg{biblatex} you should consult its extensive manual.
 
-\subsection*{Note}
+\subsection{Backward compatibility}
 
 The blog has now made SBL style a rolling style that changes with each blog
 post. Because of this, preserving backward compatibility between releases is
@@ -126,8 +148,1812 @@ seminaries and theological colleges.
 breaks compatibility with the version 0.x releases.} If you need to access a
 legacy release, you should download it from the GitHub repository and place
 the style files locally in your project.\footnote{See
-\url{https://github.com/dcpurton/biblatex-sbl/releases} for legacy releases
-and \url{https://github.com/dcpurton/biblatex-sbl/tree/legacy} for legacy
-source code.} Legacy 0.x versions are no longer maintained or supported.
+\url{https://github.com/dcpurton/biblatex-sbl/releases} for legacy (and new)
+releases and \url{https://github.com/dcpurton/biblatex-sbl/tree/legacy} for
+legacy source code.} Legacy 0.x versions are no longer maintained or
+supported.
+
+\subsection{Bug reports and feature requests}
+
+Bug reports and feature requests can be made at the package GitHub repository.
+See \url{https://github.com/dcpurton/biblatex-sbl}.
+
+\section{Usage}
+
+\subsection{Basic usage}
+
+At a minimum, just load \pkg{biblatex} with |style=sbl|. By default many entry
+types appear in the list of abbreviations rather than the bibliography so you
+will almost certainly want to use both |\printbiblist{abbreviations}| and and
+\cs{printbibliography}.
+
+\begin{sblexample}[no output]
+  \begin{verbatim}
+  \documentclass{article}
+  \usepackage[style=sbl]{biblatex}
+  \addbibresource{<bibfile.bib>}
+  \begin{document}
+  Filler text \autocite{<bibentry>}.
+  \printbiblist{abbreviations}
+  \printbibliography
+  \end{document}
+  \end{verbatim}
+\end{sblexample}
+
+\subsection{Bib entry set up and citation}
+
+The best way to learn how to set up the bib entries and cite them is to use
+the three example files which show every example from the handbook, the
+student supplement and the blog. These files show the bib entries, the
+citation commands and output including the list of abbreviations and
+bibliography. These three files should be considered the main documentation
+for the style.
+\begin{itemize}
+  \item |biblatex-sbl-handbook-examples.pdf| shows all the examples from the
+    handbook.
+  \item |biblatex-sbl-studentsupplement-examples.pdf| shows all the examples
+    from the student supplement to the handbook.
+  \item |biblatex-sbl-blog-examples.pdf| shows all the examples from the blog.
+\end{itemize}
+These files should all be accessible with |texdoc|. Also in the documentation
+directory is |biblatex-sbl.bib| which contains all bib entries used in the
+example files.
+
+The bib entry examples shown in example citations below are usually just
+snippets showing a couple of relevant fields to the particular citation
+command. You can then look up the full entry in |biblatex-sbl.bib|.
+
+\subsection{Language and font set up}
+
+Language and font set up can be done in the standard way for \pkg{biblatex}. I
+recommend using \pkg{babel} and |lualatex|, especially for right-to-left
+languages.
+
+Note that \pkg{biblatex-sbl} contains many custom strings which are only
+defined for English. Offers to develop and maintain translations for other
+languages are welcome.
+
+Set up for English, Greek and Hebrew using the SBL biblical fonts can be
+simplified by using the \pkg{sblfonts} package. For example, the following
+code sets up a document with Australian English as the main language and Greek
+and Hebrew using the SBL fonts (provided they are installed). The following
+example requires |lualatex|.
+
+\begin{sblexample}
+  \begin{verbatim}
+  \documentclass[australian]{article}
+  \usepackage[sblfonts]{sblfonts}
+  \usepackage[style=sbl]{biblatex}
+  \usepackage{csquotes}
+  \addbibresource{biblatex-sbl.bib}
+  \begin{document}
+  Filler text \autocite[חֹזֶה II]{HALOT}.
+  \end{document}
+  \end{verbatim}
+
+  \tcblower
+
+  \setquotestyle{australian}
+  \stdpunctuation
+
+  Filler text.\footcite[חֹזֶה II]{HALOT}
+\end{sblexample}
+
+The big advantage of using |lualatex| with \pkg{babel} is that inline Greek
+and Hebrew do not need to be marked up. They can just be written directly into
+the document and bib entries.
+
+\subsection{Citations}
+
+In general, you should use \cs{autocite} and related commands for citations.
+This will place citations in footnotes or within parentheses if already in a
+footnote.
+
+\subsubsection{Shorthands}
+
+Many reference books, dictionaries, encyclopaedias and lexicons should be
+cited by an abbreviation which should in turn appear in a list of
+abbreviations. The abbreviation for a bib entry is set using the |shorthand|
+field.
+
+The font used for the abbreviation should match the format of the field to
+which the abbreviation refers. So, for example, an abbreviation for the
+authors of a book would be set in a Roman font, while the abbreviation for the
+title of a book would be set in an italic font. By default \pkg{biblatex-sbl}
+sets all abbreviations in an italic font, but this can be changed on a per-entry
+basis by setting |shorthandformat=roman| in the entry options.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @reference{BDAG,
+    options = {shorthandformat=roman},
+    ...
+  }
+  @mvreference{HALOT,
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[]{BDAG}
+
+  \examplecite[]{HALOT}
+\end{sblexample}
+
+The separator between a work cited by abbreviation and the |postnote| is
+dependent on what the |postnote| refers to. If the work is cited by page, then
+the separator should be a comma. If the work is cited by section (§), then the
+separator should be a space. This is handled by setting the |pagination| field
+in the bib entry.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @collection{ANET,
+    ...
+  }
+  @book{BDF,
+    pagination = {section}
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][319]{ANET}
+
+  \examplecite[][151]{BDF}
+\end{sblexample}
+
+\subsubsection{Multivolume works}
+
+SBL has particular rules around the punctuation before and after the volume
+number in a citation.
+\begin{itemize}
+  \item A multivolume work cited by abbreviation has a space before the
+    volume.
+  \item A multivolume work cited in full has a comma before the volume.
+  \item A colon should separate the volume and page number(s).
+  \item A period should separate the volume and other pagination styles (e.g.,
+    paragraph or section).
+\end{itemize}
+\pkg{biblatex-sbl} uses the \pkg{biblatex} \cs{volcite} command and related
+similar commands to cater to these requirements. You \emph{must} use
+\cs{volcite} or similar when citing multivolume works otherwise punctuation
+will be incorrect.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @mvcollection{ANF,
+    volumes = {10},
+    ...
+  }
+  @mvbook{ARAB,
+    volumes = {2},
+    pagination = {paragraph},
+    ...
+  }
+  @mvcommentary{aune:1997-1998,
+    volumes = {3},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplevolcite[]{3}[63]{ANF}
+
+  \examplevolcite[]{2}[407-416]{ARAB}
+
+  \examplevolcite[]{1}[589]{aune:1997-1998}
+\end{sblexample}
+
+\subsubsection{Subsequent citations}
+
+SBL style uses a full citation the first time a work is referenced, but then a
+short form for subsequent citations (usually showing only the author and a
+shortened title). If \pkg{hyperref} is loaded, the short title is usually
+hyperlinked to the first citation.
+
+\pkg{biblatex-sbl} automates the shortening of titles if possible while also
+providing the |shorttitle| field to allow for a specific short title.
+
+If no |shorttitle| is specified in the bib entry, then the short title is
+constructed from the |title| field by:
+\begin{itemize}
+  \item Removing everything from the first colon as this is assumed to be the
+    subtitle.
+  \item Removing \emph{A}, \emph{An} or \emph{The} from the beginning.
+\end{itemize}
+
+A second feature of SBL style relates to citing chapters by different authors
+in the same collection of works. In this case, the first citation of
+subsequent chapters from the collection should use a short form of the
+collection details. \pkg{biblatex-sbl} supports this using the \pkg{biblatex}
+|crossref| field.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @collection{rogerson+lieu:2006,
+    ...
+  }
+  @incollection{dell:2006,
+    crossref = {rogerson+lieu:2006},
+    ...
+  }
+  @incollection{davies:2006,
+    crossref = {rogerson+lieu:2006},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][415-416]{dell:2006}
+
+  \examplecite[][99]{davies:2006}
+\end{sblexample}
+
+\subsubsection{Footnotes}
+
+SBL style has specific requirements for citations relating to discussion or
+quotation inside footnotes. Long form citations should begin a new sentence
+and be introduced with \emph{See} (or similar). Short form citations should be
+placed within parentheses.
+
+\pkg{biblatex-sbl} supports this with \cs{autocite} in footnotes subject to
+the following limitations:
+\begin{itemize}
+  \item Only one entry key can be specified in \cs{autocite}.
+  \item You must place \cs{autocite} between text and final punctuation.
+  \item \cs{autocites} is not supported.
+  \item If there is a quotation ending immediately before the citation, this
+    must be handled specially. See below.
+\end{itemize}
+
+If the set up is correct the goal is for correct behaviour even if you move
+footnotes around the order changes.
+
+\begin{sblexample}
+  \begin{verbatim}
+  Filler text.\footnote{Discussion
+    \autocite{desilva:1998}.}
+  Filler text.\footnote{Discussion
+    \autocite{desilva:1998}.}
+  \end{verbatim}
+
+  \tcblower
+
+  Filler text.\footnote{Discussion. \cite[See][]{desilva:1998}.}
+  Filler text.\footnote{Discussion \autocite{desilva:1998}.}
+\end{sblexample}
+
+There is extra complexity if there is a quotation immediately before a
+first citation in a footnote. In this case, the period must be moved inside
+the quotation (for US style punctuation) or suppressed if the quotation
+finishes with a question or exclamation mark.
+
+This is accomplished using the \cs{sblfootquotepunct} command which is placed
+\emph{just inside the closing quotation mark}. \cs{sblfootquotepunct} takes an
+optional argument specifying the final punctuation (? or !) and a mandatory
+argument specifying the \meta{key} of the entry which will be then cited with
+\cs{autocite} after the quotation.
+
+\cs{sblfootquotepunct} works with a literal quotation mark as well as with
+\cs{mkbibquote} and the various commands from the \pkg{csquotes} package.
+
+\begin{sblexample}
+  \begin{verbatim}
+  Filler text.\footnote{“Quotation%
+    \sblfootquotepunct{richards:1965}”
+    \autocite[116-117]{richards:1965}.}
+
+  Filler text.\footnote{“Quotation%
+    \sblfootquotepunct{richards:1965}”
+    \autocite[116-117]{richards:1965}.}
+  \end{verbatim}
+
+  \tcblower
+
+  Filler text.\footnote{“Quotation.” \cite[See][116-117]{richards:1965}.}
+  Filler text.\footnote{“Quotation” \autocite[116-117]{richards:1965}.}
+\end{sblexample}
+
+\subsubsection{Reprints}
+
+\pkg{biblatex-sbl} supports three methods of citing reprints with varying
+degrees of complexity.
+
+If only the original publisher, location, and/or year are required, then use
+the fields |origpublisher|, |origlocation|, and |origdate|.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @book{vanseters:1997,
+    origpublisher = {Yale University Press},
+    origdate = {1983},
+    publisher = {eisenbrauns},
+    date = {1997},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][90]{vanseters:1997}
+\end{sblexample}
+
+When extra information is required, use a related entry with
+|relatedtype = {reprint}|. A custom string can be specified instead of
+``Repr.'' using the optional |relatedstring| field.  In this case no
+punctuation is inserted after the |relatedstring|. You could think of the
+default being |relatedstring = {\bibstring{reprint},}|.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @book{zerwick:2011,
+    related = {zerwick:repr},
+    relatedtype = {reprint}
+    ...
+  }
+  @book{zerwick:repr,
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][360-362]{zerwick:2011}
+\end{sblexample}
+
+Finally, a full reprint history also uses the |related| field, but with some
+other |relatedtype| apart from |relatedtype = {reprint}|.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @book{wellhausen:1883,
+    ...
+  }
+  @book{wellhausen:1885,
+    related = {wellhausen:1883},
+    relatedtype = {translationof},
+    ...
+  }
+  @book{wellhausen:1957,
+    related = {wellhausen:1885},
+    relatedtype = {reprintof},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][20]{wellhausen:1957}
+\end{sblexample}
+
+\subsubsection{Other related works}
+
+\pkg{biblatex-sbl} supports a number of more specialised ways of relating one
+work to another.
+
+\paragraph{Journal articles published across multiple volumes}
+
+Some journal articles are published across multiple volumes, but can be cited
+as one article. This kind of citation uses |relatedtype = {multivolarticle}|
+and should be cited with \cs{avolcite} or similar. Note that there is no
+|@mvarticle| bib entry type, as this type of reference is very rare. Just use
+|@article|.
+
+\begin{sblexample}[lefthand ratio=0.55]
+  \begin{verbatim}
+  @article{wellhausen:1876-1887,
+    related = {wellhausen:1876, wellhausen:1877},
+    relatedtype = {multivolarticle},
+    ...
+  }
+  @article{wellhause:1876,
+    volume = {21},
+    ...
+  }
+  @article{wellhause:1877,
+    volume = {22},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplevolcite[]{21}[434]{wellhausen:1876-1877}
+\end{sblexample}
+
+\paragraph{Works by multiple authors bound in a single volume}
+
+A particularly niche situation arose on the SBL blog at
+\url{https://sblhs2.com/2018/01/18/citing-text-collections-10-lcl/} where a
+question was asked concerning citing from a LCL volume containing works by
+multiple authors each with a separate translator. When citing from a work
+by an author other than the first author listed in the volume's title, SBL
+suggested using a cross reference in the bibliography to point to the main
+bibliography entry. \pkg{biblatex-sbl} supports this using a combination of
+|relatedtype = {see}| and an |execute| field. It's not pretty, but it does
+work.
+
+There's a lot of bib entries that go into making this, so rather than list
+them here, you can look up |aristotle:poetics:book| and following entries in
+|biblatex-sbl.bib|. To make things more complicated the main bibliography
+entry uses the |related| field to append the other two works to the first
+title.
+
+Several more compiles and runs of |biber| are required than you wish for,
+unless you add a couple of entries to \cs{nocite}.
+
+\begin{sblexample}[no code]
+  \nocite{aristotle:poetics:book, aristotle:poetics:book:short}
+  \examplecite[]{longinus:sublime}
+
+  \examplebibliography
+\end{sblexample}
+
+\paragraph{Citing quotations from within another work}
+
+A final supported type of relating one work to another deals with citing a
+quotation from within another work. Note that SBL discourages this as the
+primary source should be consulted. This type of citation uses the |xref| and
+|xrefstring| fields.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @book{edwards:1999,
+    ...
+  }
+  @ancienttext{victorinus:ephesians,
+    xref = {edwards:1999},
+    xrefstring = {quoted in},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \nocite{ACCS}
+  \examplecite[][(1.2.12)129]{victorinus:ephesians}
+\end{sblexample}
+
+\subsubsection{Bible commentaries}
+
+Most Bible commentaries on a single book of the Bible work in the same way as
+a |@book| bib entry.
+
+\begin{sblexample}[lefthand ratio=0.4]
+  \begin{verbatim}
+  @commentary{hooker:1991,
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[]{hooker:1991}
+
+  \exampleabbreviations
+
+  \vspace*{-2ex}
+
+  \examplebibliography
+\end{sblexample}
+
+Other commentaries are part of a single or multi-volume commentary on the
+whole Bible where the commentary is cited as a |shorthand| and included in the
+list of abbreviations. In this case, the full commentary should be cross
+referenced using the |xref| field.
+
+\begin{sblexample}[lefthand ratio=0.4]
+  \begin{verbatim}
+  @mvcommentary{NIB,
+    shorthand = {NIB},
+    ...
+  }
+  @incommentary{miller:jeremiah,
+    xref = {NIB},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[]{miller:jeremiah}
+
+  \exampleabbreviations
+
+  \vspace*{-2ex}
+  
+  \examplebibliography
+\end{sblexample}
+
+\subsubsection{Reference works}
+
+Dictionaries, encyclopaedias and lexica deserve a special mention.
+\pkg{biblatex-sbl} uses the |@mvreference|, |@reference| and |@inreference|
+entry types to support these. |@inreference| is used to cite signed articles
+which should appear in the bibliography. Unsigned entries use the
+|@mvreference| or |@reference| entry directly. Typically reference works with
+unsigned entries in them use |pagination = {subverbo}| and the articles are
+referenced by word under consideration rather than page number. Unsigned
+articles do not appear in the bibliography. The reference work itself will
+appear in the list of abbreviation if cited by its abbreviation or in the
+bibliography otherwise.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @mvreference{EDNT,
+    pagination = {subverbo},
+    ...
+  }
+  @inreference{lattke:kakia,
+    xref = {EDNT},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][Ἅγαβος]{EDNT}
+
+  \examplecite[]{lattke:kakia}
+\end{sblexample}
+
+\subsubsection{Ancient works}
+
+Citing ancient works and texts is particularly complicated because of the
+variety of text types and collections they are published in.
+\pkg{biblatex-sbl} uses the |@ancienttext| entry type for all ancient works.
+
+By default an |@ancienttext| entry will not appear in the bibliography.
+Include |skipbib=false| in the |options| field if you need to include the work
+in the bibliography.
+
+\paragraph{Source divisions in ancient works}
+
+Many ancient works are cited by a commonly agreed on source division (such as
+book, chapter, section) instead of or as well as a page number in a particular
+edition.
+
+\pkg{biblatex-sbl} supports this with the aid of the
+\pkg{biblatex-source-division} package.\footnote{Thanks to Maïeul Rouquette.
+See \url{https://ctan.org/package/biblatex-source-division}.}
+
+The syntax for specifying the source division is the same as for
+\pkg{biblatex-source-division} so the source division is placed within
+parentheses at the start of the |postnote| and is then optionally followed by
+the location in the particular edition being cited. The text collection is
+indicated using an |xref| field in the |ancienttext| bib entry.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @mvcollection{NPNF,
+    ...
+  }
+  @ancienttext{augustine:letters,
+    xref = {NPNF},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][(28.3.5)252]{augustine:letters}
+\end{sblexample}
+
+\paragraph{Translations of ancient works}
+
+It is sometimes desirable to cite a particular translation of an ancient work.
+For this purpose a set of variant citation commands are provided, e.g.,
+\cs{atranscite}. The translator needs to be included in the bib entry of the
+ancient work.
+
+The format of the translator in the citation varies depending on whether the
+source being cited is from within a text collection (indicated with the |xref|
+field) or not.
+
+\begin{sblexample}
+  \begin{verbatim}
+  @collection{ANET,
+    ...
+  }
+  @ancienttext{legendsargon,
+    translator = {Speiser, E. A.},
+    xref = {ANET},
+    ...
+  }
+  @{herodian:hist,
+    translator = {Whittaker},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[trans]{legendsargon}
+
+  \examplecite[trans][(2.2)]{herodian:hist}
+\end{sblexample}
+
+\paragraph{Ancient works included in text collections}
+
+Often ancient works are published as part of a collection. The collection
+should appear either in the bibliography or list of abbreviations. This
+collection should be referenced in the |xref| field.
+
+When citing an ancient work which is part of a text collection, it's possible
+to include a source division and/or location in the text collection. If no
+\meta{postnote} is included in the citation then the printing of the text
+collection is suppressed. If you need to print a full citation with
+unabbreviated name including the text collection use \cs{fullcite} (or
+variant).
+
+\begin{sblexample}[lefthand ratio=0.4]
+  \begin{verbatim}
+  @ancienttext{bknoah,
+    title = {Book of Noah},
+    shorttitle = {Bk.\@ Noah},
+    translator = {Himmelfarb, Martha},
+    xref = {MOTP},
+    volume = {1},
+    pages = {40-46}
+  }
+  @mvcollection{MOTP,
+    shorthand = {MOTP},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][(3)46]{bknoah}
+
+  \exampleabbreviations
+\end{sblexample}
+
+Many classical works are cited using an abbreviated title. In this case the
+abbreviated title should appear in the list of abbreviations. The abbreviated
+title should be placed in the |shorttitle| field. Titles are set using
+\cs{frenchspacing}, so it's safe to leave periods as is.
+
+\begin{sblexample}[lefthand ratio=0.4]
+  \begin{verbatim}
+  @ancienttext{tacitus:ann,
+    author = {Tacitus},
+    title = {Annales},
+    shorttitle = {Ann.},
+    xref = {tacitus:histories}
+  }
+  @mvbook{tacitus:histories,
+    author = {Tacitus},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][(15.18-19)]{tacitus:ann}
+
+  \exampleabbreviations
+
+  \vspace*{-2ex}
+
+  \examplebibliography
+\end{sblexample}
+
+SBL has specific rules around the formatting of titles in ancient works.
+Ancient works with an author use italics for the title. Ancient works without
+an author use either a Roman font or a Roman font enclosed in quotation marks,
+depending on whether the title is well established and independent of
+translation or whether the title was given by a translator. The former case
+uses a plain Roman font. The latter, is placed within quotation marks. Setting
+|entrysubtype = {inancientcollection}| will use quotation marks for title,
+otherwise a plain Roman font is used.
+
+\begin{sblexample}[lefthand ratio=0.45]
+  \begin{verbatim}
+  @ancienttext{legendsargon,
+    entrysubtype = {inancientcollection},
+    title = {The Legend of Sargon},
+    translator = {Speiser, E. A.},
+    xref = {ANET},
+    pages = {119}
+  }
+  @collection{ANET,
+    shorthand = {ANET},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[]{legendsargon}
+
+  \exampleabbreviations
+\end{sblexample}
+
+Other ancient works behave like a book or a part of a book. The former uses an
+italic font for the title and the latter a Roman font in quotation marks,
+similar to |@book| and |@inbook|. These two types are set using
+|entrysubtype = {ancientbook}| and |entrysubtype = {inancientbook}|
+respectively. These two entry subtypes use the |title| in the first citation
+and the |shorttitle| in subsequent citations.
+
+\begin{sblexample}[lefthand ratio=0.45]
+  \begin{verbatim}
+  @ancienttext{clementinehomilies,
+    entrysubtype = {ancientbook},
+    title = {The Clementine Homilies},
+    xref = {ANF},
+    volume = {8},
+    pages = {213-346}
+  }
+  @mvcollection{ANF,
+    shorthand = {ANF},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \examplecite[][(1.3)223]{clementinehomilies}
+
+  \exampleabbreviations
+\end{sblexample}
+
+The best best way to learn how to set up bib entries for ancient works is to
+look through the examples from the handbook and especially the blog for a
+similar example to what you want and from there see how to implement the set
+up in \pkg{biblatex-sbl}.
+
+\subsection{Bibliography}
+
+The bibliography is printed using the standard \pkg{biblatex} command,
+\cs{printbibliography}. Some bib entries are excluded from the bibliography by
+default in order to comply with SBL recommendations (e.g., references cited by
+abbreviation, most ancient sources, blogs, etc.). Often these defaults can be
+overridden by including |options = {skipbib=false}| in the bib entry.
+
+\subsection{List of abbreviations}
+
+SBL style makes extensive use of abbreviations, so it is almost always
+necessary to include a list of abbreviations with
+|\printbiblist{abbreviations}|. If \pkg{hyperref} is loaded then abbreviations
+will hyperlink to the list of abbreviations.
+
+Many longer works split the list of abbreviations into three sections: a list
+of abbreviations relating to ancient sources, a list of abbreviations relating
+to secondary sources, and a list of sigla and other abbreviations.
+
+\subsubsection{Ancient sources}
+
+A list of abbreviations of ancient sources can be printed by passing
+|type=ancienttext| to \cs{printbiblist}. Preferred abbreviations for ancient
+sources are specified in the handbook and on the blog. SBL now prefers to use
+Latin abbreviations over English ones.
+
+To appear in the list of abbreviations and |@ancienttext| must have a
+|shorttitle|. If two works have the same short title, then SBL specifies that
+the works should be separated with a semi-colon in the list of abbreviations.
+This happens automatically.
+
+\begin{sblexample}[lefthand ratio=0.35]
+  \begin{verbatim}
+  @ancienttext{1QM,
+    title = {War Scroll},
+    shorttitle = {1QM}
+  }
+  @ancienttext{cicero:agr,
+    shorttitle = {Agr.},
+    ...
+  }
+  @ancienttext{philo:agr,
+    shorttitle = {Agr.},
+    ...
+  }
+  @ancienttext{plutarch:ant,
+    shorttitle = {Ant.},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \begin{verbtext}
+      \printbiblist
+        [heading=subbibliography,
+         title=Ancient Sources,
+         type=ancienttext]
+        {abbreviations}
+  \end{verbtext}
+
+  \nocite{1QM, cicero:agr, philo:agr, plutarch:ant}
+
+  \vspace{-\baselineskip}
+
+  \subsubsection*{Ancient Sources}
+
+  \printbiblist [heading=none, title=Ancient Sources,
+    type=ancienttext]{abbreviations}
+\end{sblexample}
+
+\subsubsection{Secondary sources}
+
+Secondary sources will be included in a list of abbreviations for bib entries
+containing any one of the fields |shorthand|, |shortseries| and/or
+|shortjournal|.
+
+\begin{sblexample}[lefthand ratio=0.35]
+  \begin{verbatim}
+  @reference{BDB,
+    shorthand = {BDB},
+    ...
+  }
+  @article{miller:1984,
+    shortjournal = {JSOT},
+    ...
+  }
+  @book{salters:2010,
+    shortseries = {ICC},
+    ...
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \begin{verbtext}
+      \printbiblist
+        [heading=subbibliography,
+         title=Secondary Sources,
+         nottype=ancienttext,
+         nottype=abbreviation]
+        {abbreviations}
+  \end{verbtext}
+
+  \nocite{BDB, miller:1984, salters:2010}
+
+  \vspace{-\baselineskip}
+
+  \subsubsection*{Secondary Sources}
+
+  \printbiblist [heading=none, title=Ancient Sources,
+    nottype=ancienttext, nottype=abbreviation]{abbreviations}
+\end{sblexample}
+
+\subsubsection{Other abbreviations}
+
+\pkg{biblatex-sbl} includes \emph{very} basic support for general
+abbreviations, sigla and acronyms. These are supported by a basic
+|@abbreviation| bib entry type with a |shorthand| and corresponding
+|definition| field. Abbreviations can then be included in the text and added
+to the list of abbreviations using the \cs{abbrev} command. 
+
+\begin{sblexample}[lefthand ratio=0.35]
+  \begin{verbatim}
+  @reference{>,
+    shorthand = {>},
+    definition = {omits the lemma}
+  }
+  @article{abl,
+    shorthand = {abl.},
+    definition = {ablative}
+  }
+  \end{verbatim}
+
+  \tcblower
+
+  \begin{verbtext}
+      \printbiblist
+        [heading=subbibliography,
+         title=Sigla and Grammatical Abbreviations,
+         type=abbreviation]
+        {abbreviations}
+  \end{verbtext}
+
+  \nocite{>, abl}
+
+  \vspace{-\baselineskip}
+
+  \subsubsection*{Sigla and Grammatical Abbreviations}
+
+  \printbiblist [heading=none, title=Ancient Sources,
+    type=abbreviation]{abbreviations}
+\end{sblexample}
+
+\subsection{Index of modern authors}
+
+Passing the option |indexing=cite| to \pkg{biblatex-sbl} activates indexing of
+modern authors. (SBL tends not to index names in the bibliography and list of
+abbreviations, neither does it include titles in the index as \pkg{biblatex}
+does by default.)
+
+Set up for indexing of modern authors (along with subjects and ancient
+sources) according to SBL style can be simplified by using the \pkg{sblidx}
+package.
+
+\pkg{biblatex-sbl} does not include |@ancienttext| entry types in the index as
+these are often index in a similar way to Bible references and the set up will
+likely be unique to a particular project. \pkg{bibleref-sbl} could be useful
+here.
+
+\section{Reference}
+
+Many (but by no means all) of the standard \pkg{biblatex} options, commands,
+entry types, fields and localisation strings are supported by
+\pkg{biblatex-sbl}.
+
+The following section documents things which are unique to \pkg{biblatex-sbl}
+or which behave in unique ways.
+
+\subsection{Options}
+
+\pkg{biblatex-sbl} loads the \pkg{biblatex} |verbose-ibid| style and then
+executes the following options by default:
+\begin{quote}
+  \ttfamily\raggedright
+  citepages=omit, citetracker=context, dateabbrev=false, ibidtracker=false,
+  idemtracker=citation, isbn=false, language=american, maxbibnames=99,
+  mincrossrefs=2, minxrefs=1, nametracker=context, pagetracker=true,
+  sorting=nwty, uniquework=true
+\end{quote}
+The following options are unique to \pkg{biblatex-sbl} or behave in a unique
+way.
+
+\subsubsection{Load-time options}
+
+\begin{function}{citepages}
+  \begin{syntax}
+    = omit \textbar\ separate\hfill Default: omit
+  \end{syntax}
+  By default SBL recommends that full pages for a chapter or article be
+  included in the bibliography and only the page or pages under consideration
+  be referenced in the first citation.
+\end{function}
+
+If there is no bibliography, then setting |citepages=separate| includes the
+full page range in the first citation. The page under consideration is then
+included after the string |thiscite|, which is defined as `here' by default.
+
+One exception to this is in the first citation to a multi-part journal article
+spread of two volumes. In this case, the behaviour always matches that of
+|citepages=separate|.
+
+\subsubsection{Entry options}
+
+\begin{function}{nonlatinbooktitleformat, nonlatinmaintitleformat, nonlatintitleformat}
+  \begin{syntax}
+    = \meta{boolean}\hfill Default: false
+  \end{syntax}
+  These entry options controls how a title in a non-Latin alphabet is
+  formatted, if you wish to cite by this title rather than a translated title.
+  The translated title is then placed in |translatedtitle|,
+  |translatedbooktitle| or |translatedmaintitle|.
+\end{function}
+
+In such cases, the non-Latin title should be formatted in a plain Roman font,
+rather than italic or quoted Roman font. However, you need to tell
+\pkg{biblatex-sbl} that your bib entry is using a non-Latin script for the
+title. This can by done using |options = {nonlatintitle}| in the bib entry.
+
+\begin{function}{partsinvols}
+  \begin{syntax}
+    = true \textbar\ false\hfill Default: false
+  \end{syntax}
+  For entries containing both a |parts| and a |volumes| field, this option
+  controls whether the bibliography record prints |volumes| vols. in |parts|
+  parts (default) or |parts| parts in |volumes| vols.
+\end{function}
+
+\begin{function}{shorthandformat}
+  \begin{syntax}
+    = italic \textbar roman\hfill Default: italic
+  \end{syntax}
+  The format of a |shorthand| field in SBL style needs to match what the
+  abbreviation points to. So if the |shorthand| refers to the title of the
+  work, it should be printed in italics, whereas if the |shorthand| refers to
+  the authors of the work it it should be set in a Roman font. By default the
+  |shorthand| is set using italics, but this can be changed for a bib entry
+  using |options = {shorthandformat=roman}|.
+\end{function}
+
+\begin{function}{usetitle}
+  \begin{syntax}
+    = true \textbar\ false\hfill Default: true
+  \end{syntax}
+  For bib entry types that can have a |maintitle| in addition to a |title|
+  (|@book|, |@collection|, |@commentary|, |@reference|) SBL usually places the
+  |title| first and then locates this in the |maintitle|. However, there are
+  some situations where it makes more sense to reference the work by its
+  |maintitle| because the |title| is overly generic (e.g., \emph{Books 1–3}).
+  In these cases, set use |options = {usetitle=false}| to place the |title|
+  after the |maintitle|.
+\end{function}
+
+\begin{function}{usexref}
+  \begin{syntax}
+    = true \textbar\ false\hfill Default: true
+  \end{syntax}
+  Generally, ancient works which are part of a text collection include the
+  text collection in the citation. One exception to this is SBL's treatment of
+  ancient epistles and homilies,\footnote{See §6.4.4 of the handbook.} where
+  the collection does not appear in the citation, but it still needs to appear
+  in the bibliography. This behaviour can be achieved by placing the text
+  collection in the |xref| field as usual and then using
+  |options = {usexref=false}|.
+\end{function}
+
+\subsection{Commands}
+
+\subsubsection{Citation commands}
+
+\paragraph{Main citation commands}
+
+\begin{function}{\autocite, \autocite*, \Autocite, \Autocite*}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  \cs{autocite} inserts a citation as a footnote. If used in a footnote, the
+  citation is placed in parentheses. The starred variant suppresses the
+  author, editor, or translator (provided the entry options are set to use
+  them). It works as in the standard \pkg{biblatex} styles, except that that
+  \meta{postnote} argument can be divided into two using parentheses to
+  specify a source division for ancient works.
+\end{function}
+
+\cs{Autocite} is similar to \cs{autocite} but capitalises the name prefix of
+the first name in the citation if provided that there is a name prefix.
+This only makes a difference if the |autocite| option has been set to |plain|
+or |inline|.
+
+As with the \pkg{biblatex} package, the behaviour of \cs{autocite} can be
+changed with the |autocite| load-time option.
+
+\begin{function}{\cite, \cite*, \Cite, \Cite*}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  \cs{cite} works in the same way as \cs{autocite} except that the citation is
+  placed directly into the text instead of in a footnote. The starred variant
+  suppresses the author, editor, or translator (provided the entry options are
+  set to use them).
+\end{function}
+
+\cs{Cite} is similar to \cs{cite} but capitalises the name prefix of the first
+name in the citation if provided that there is a name prefix.
+
+\begin{function}{\parencite, \parencite*, \Parencite, \Parencite*}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  \cs{parencite} works in the same way as \cs{autocite} except that the
+  citation is placed inside parentheses instead of in a footnote. The starred
+  variant suppresses the author, editor, or translator (provided the entry
+  options are set to use them). This is most useful for citing primary
+  sources.
+\end{function}
+
+\cs{Parencite} is similar to \cs{parencite} but capitalises the name prefix of
+the first name in the citation if provided that there is a name prefix.
+
+\paragraph{Volume citation commands}
+
+Multi-volume references \emph{must} be cited using this family of citation
+commands to ensure correct delimiters before and after the volume number in
+the citation.
+
+\begin{function}{\avolcite, \avolcite*, \Avolcite, \Avolcite*}
+  \begin{syntax}
+    \oarg{prenote}\marg{volume}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{autocite}, but allows specifying the
+  \meta{volume} when citing a multi-volume work.
+\end{function}
+
+\begin{function}{\pvolcite, \pvolcite*, \Pvolcite, \Pvolcite*}
+  \begin{syntax}
+    \oarg{prenote}\marg{volume}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{parencite}, but allows specifying the
+  \meta{volume} when citing a multi-volume work.
+\end{function}
+
+\begin{function}{\volcite, \volcite*, \Volcite, \Volcite*}
+  \begin{syntax}
+    \oarg{prenote}\marg{volume}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{cite}, but allows specifying the
+  \meta{volume} when citing a multi-volume work.
+\end{function}
+
+\paragraph{Translator citation commands}
+
+When citing a translation of an ancient work, the translator of the work needs
+to be included. The following commands do this providing the translator is
+specified in the |translator| field (or inherited via the |crossref| field).
+
+These functions only make sense for |@ancienttext| entry types.
+
+\begin{function}{\atranscite, \atranscite*, \Atranscite, \Atranscite*}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{autocite}, but includes the translator.
+\end{function}
+
+\begin{function}{\ptranscite, \ptranscite*, \Ptranscite, \Ptranscite*}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{parencite}, but includes the translator.
+\end{function}
+
+\begin{function}{\transcite, \transcite*, \Transcite, \Transcite*}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{cite}, but includes the translator.
+\end{function}
+
+\begin{function}{\avoltranscite, \avoltranscite*, \Avoltranscite, \Avoltranscite*}
+  \begin{syntax}
+    \oarg{prenote}\marg{volume}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{avolcite}, but includes the translator.
+\end{function}
+
+\begin{function}{\pvoltranscite, \pvoltranscite*, \Pvoltranscite, \Pvoltranscite*}
+  \begin{syntax}
+    \oarg{prenote}\marg{volume}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{pvolcite}, but includes the translator.
+\end{function}
+
+\begin{function}{\voltranscite, \voltranscite*, \Voltranscite, \Voltranscite*}
+  \begin{syntax}
+    \oarg{prenote}\marg{volume}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  This function is analogous to \cs{volcite}, but includes the translator.
+\end{function}
+
+\paragraph{Multicite citation commands}
+
+Each of the above commands also has multicite variants (\cs{autocites},
+\cs{parencites}, \cs{cites}, etc.). See the main \pkg{biblatex} package
+documentation for syntax and usage.
+
+Each citation \meta{postnote} can by split to include a \meta{source division}
+as above.
+
+\paragraph{Specialised citation commands}
+
+The following specialised citation commands are also available.
+
+\begin{function}{\citeauthor, \citeauthor*, \Citeauthor, \Citeauthor*}
+  \begin{syntax}
+    \oarg{prenote}\oarg{postnote}\marg{key}
+  \end{syntax}
+  Print the author (or editor or translator) of a work. The full author is
+  printed for the first citation and the short author is printed for
+  subsequent citations. The starred variant prints just the first author of
+  works by multiple authors. 
+\end{function}
+
+\cs{Citeauthor} is similar to \cs{citeauthor} but capitalises the name prefix
+of the first name in the citation if provided that there is a name prefix.
+
+\begin{function}{\citefullauthor, \citefullauthor*, \Citefullauthor, \Citefullauthor*}
+  \begin{syntax}
+    \oarg{prenote}\oarg{postnote}\marg{key}
+  \end{syntax}
+  Similar to \cs{citeauthor}, but always cites the full author.
+\end{function}
+
+\begin{function}{\citeshortauthor, \citeshortauthor*, \Citeshortauthor, \Citeshortauthor*}
+  \begin{syntax}
+    \oarg{prenote}\oarg{postnote}\marg{key}
+  \end{syntax}
+  Similar to \cs{citeauthor}, but always cites the short author.
+\end{function}
+
+\begin{function}{\citetitle, \citetitle*}
+  \begin{syntax}
+    \oarg{prenote}\oarg{postnote}\marg{key}
+  \end{syntax}
+  This command prints the title. It will use the abridged title in the
+  |shorttitle| field, if available. Otherwise it falls back to the full title
+  found in the title field. The starred variant always prints the full title.
+\end{function}
+
+\begin{function}{\citecollection, \parencitecollection, \transcitecollection,
+  \transcitecollection}
+  \begin{syntax}
+    \oarg{prenote}\oarg{postnote}\marg{key}
+  \end{syntax}
+  Cite the text collection which an |@ancienttext| is included in. The key in
+  this case is the |@ancienttext| key and the text collection is included in
+  the |xref| field. The translator (if specified) is included for
+  \cs{transcitecollection} and \cs{ptranscitecollection}.
+\end{function}
+
+\begin{function}{\afullcite, \parenfullcite, \fullcite, ...}
+  \begin{syntax}
+    \oarg{prenote}[(\meta{source division})\meta{postnote}]\marg{key}
+  \end{syntax}
+  These commands are similar to \cs{autocite}, \cs{parencite} and \cs{cite},
+  but they always print the full citation. There is a full suite of starred,
+  capitalised, volume, and translator variants also defined.
+\end{function}
+
+\subsubsection{Bibliography}
+
+\begin{function}{\printbibliography}
+  \begin{syntax}
+    \oarg{key=value, ...}
+  \end{syntax}
+  Print the bibliography. See the \pkg{biblatex} manual for a description of
+  available options.
+\end{function}
+
+\subsubsection{List of abbreviations}
+
+\begin{function}{\printbiblist}
+  \begin{syntax}
+    \oarg{key=value, ...}|{abbreviations}|
+  \end{syntax}
+  Print the list of abbreviations. See the \pkg{biblatex} manual for a
+  description of available options.
+\end{function}
+
+\subsubsection{Miscellaneous commands}
+
+\begin{function}{\abbrev}
+  \begin{syntax}
+    \marg{key}
+  \end{syntax}
+  Insert an abbreviation, acronym or sigla defined using the |@abbreviation|
+  entry type.
+\end{function}
+
+\begin{function}{\colno, \colsno}
+  This command forces a column number prefix (col.\ or cols.) in the
+  \meta{postnote} argument to a citation command. They use the bib strings
+  |column| and |columns|.
+\end{function}
+
+\begin{function}{\lno, \llno, \lineno, \linesno}
+  This command forces a line number prefix (l.\ or ll.) in the \meta{postnote}
+  argument to a citation command. They use the bib strings |line| and |lines|.
+\end{function}
+
+\begin{function}{\nopnfmt}
+  This command suppresses formatting of the \meta{postnote} and it's useful if
+  you want `12,13' without a space.
+\end{function}
+
+\begin{function}{\obv, \rev}
+  These commands insert the bib strings |obverse| and |reverse| (obv.\ and
+  rev.\ by default) into a \meta{postnote}.
+\end{function}
+
+\begin{function}{\sblfootquotepunct}
+  \begin{syntax}
+    \oarg{punctuation}\marg{entry key}
+  \end{syntax}
+  Use this command just before the end of a quotation in a footnote where the
+  citation (using \cs{autocite}) appears immediately after the quotation. The
+  \meta{entry key} must match the \meta{entry key} of the the \cs{autocite}
+  command. See
+  \url{https://sblhs2.com/2016/10/11/placement-citations-traditional/}.
+\end{function}
+
+\begin{function}{\sno, \ssno}
+  This command forces a section number prefix (§ or §§) in the \meta{postnote}
+  argument to a citation command. They use the bib strings |section| and
+  |sections|.
+\end{function}
+
+\begin{function}{\sv, \svv}
+  These commands insert the bib strings |subverbo| and |subverbis| (s.v.\ and
+  s.vv.\ by default) into a \meta{postnote}.
+\end{function}
+
+\subsection{Entry types}
+
+The following entry types are used by \pkg{biblatex-sbl}. Behaviour of other
+\pkg{biblatex} types should not be relied on to give correct output.
+
+\begin{function}{abbreviation}
+  This is a custom type for \pkg{biblatex-sbl}. It's used as a simple
+  implementation for acronyms, sigla and grammatical abbreviations.
+\end{function}
+|@abbrev| only supports two fields: |shorthand| for the abbreviation and
+|description| for the description of the abbreviation.
+
+\begin{function}{ancienttext}
+  This is a custom type for \pkg{biblatex-sbl} and covers all types of ancient
+  works.
+\end{function}
+The following fields are supported by the |@ancienttext| entry type:
+\begin{quote}
+  \raggedright\ttfamily
+  author, crossref, entrysubtype, execute, number, options, shortmaintitle,
+  maintitle, pages, text, shorttitle, title, translator, volume, xref,
+  xrefstring
+\end{quote}
+
+\begin{function}{article}
+  An article in a journal, magazine or newspaper. Also use this type for
+  review articles (\emph{SBLHS} §6.3.4) and electronic journal articles
+  (\emph{SBLHS} §6.3.10).
+\end{function}
+
+\begin{function}{book}
+  A single-volume book with one or more authors where the authors share credit
+  for the work as a whole.
+\end{function}
+
+\begin{function}{mvbook}
+  A multi-volume |@book|.
+\end{function}
+
+\begin{function}{inbook}
+  A part of a book which forms a self-contained unit with its own title.
+\end{function}
+
+\begin{function}{bookinbook}
+  This type is similar to |@inbook| but intended for works originally
+  published as a stand-alone book. The main difference is that the title is
+  printed in italics instead of in quotation marks.
+\end{function}
+
+\begin{function}{suppbook}
+  Supplemental material in a |@book|. Use this for an introduction, preface or
+  foreword written by someone other than the author (\emph{SBLHS} §6.2.14).
+  The |type| field is used to specify the type of supplementary material.
+\end{function}
+
+\begin{function}{collection}
+  A single-volume collection with multiple, self-contained contributions by
+  distinct authors which have their own title. The work as a whole has no
+  overall author but it will usually have an editor.
+\end{function}
+
+\begin{function}{mvcollection}
+  A multi-volume |@collection|.
+\end{function}
+
+\begin{function}{incollection}
+  A contribution to a collection which forms a self-contained unit with a
+  distinct author and title.
+\end{function}
+
+\begin{function}{commentary}
+  A single-volume commentary on the whole Bible, a book of the Bible or part
+  of a book of a book of the Bible by one or more authors. This entry type is
+  similar to |@book|.
+\end{function}
+
+\begin{function}{mvcommentary}
+  A multi-volume |@commentary|.
+\end{function}
+
+\begin{function}{incommentary}
+  A contribution to a commentary which forms a self-contained unit with a
+  distinct author and title. This is typically a commentary on a book of the
+  Bible appearing in a single or multi-volume commentary on the entire Bible.
+\end{function}
+
+If the main commentary is usually cited by abbreviation, place it in the
+|xref| field. Otherwise the details of the main commentary can be included
+within the bib entry or in the |crossref| field.
+
+\begin{function}{misc}
+  The |@misc| is a fallback entry type for references which don't fit into
+  another category. \pkg{biblatex-sbl} only uses this for including a cross
+  reference to an author whose name has changed. See
+  \url{https://sblhs2.com/2018/04/06/modern-author-names/}.
+\end{function}
+
+\begin{function}{online}
+  An online resource without a print counterpart. Use this for online
+  databases, websites, blogs, social media posts\slash comments.
+\end{function}
+
+This entry type supports the custom field |website| to hold the name of the
+website (if applicable) and also supports the following values for
+|entrysubtype| which control the formatting and inclusion\slash exclusion in
+the bibliography:
+\begin{itemize}
+  \item |blog| for blog posts.
+  \item |comment| for social media comments.
+\end{itemize}
+Neither of these sub types appear in the bibliography.
+
+\begin{function}{periodical}
+  A complete issue of a periodical, such as a special issue of a journal. The
+  title of the periodical is given in the |title| field. If the issue has its
+  own title in addition to the main title of the periodical, it goes in the
+  |issuetitle| field.
+\end{function}
+In \pkg{biblatex-sbl} this type is only used to insert a journal into the list
+of abbreviations.
+
+\begin{function}{inproceedings}
+  An article in a conference proceedings. This type is similar to
+  |@incollection|. \pkg{biblatex-sbl} only uses this entry type to cite
+  articles published in Studia Patristica where |series| is set to
+  Studia Patristica and |shortseries| to StPatr. See
+  \url{https://sblhs2.com/2017/09/14/studia-patristica/}.
+\end{function}
+
+\begin{function}{reference}
+  A single-volume dictionary, encyclopaedia or lexicon.
+\end{function}
+
+\begin{function}{mvreference}
+  A multi-volume dictionary, encyclopaedia or lexicon.
+\end{function}
+
+\begin{function}{inreference}
+  An article in a dictionary, encyclopaedia or lexicon, which could be signed
+  or unsigned depending on the reference.
+\end{function}
+
+\begin{function}{review}
+  A book review in a journal. This is similar to an |@article|. Use the
+  |revdauthor|\slash |revdeditor| and |revdtitle| fields to specify the
+  author/editor and title of the book being reviewed.
+\end{function}
+Note that review articles are treated like articles and should use the
+|@article| entry type.
+
+\begin{function}{series}
+  A multi-volume series used in one of two ways.
+
+  When it includes a |shorthand| and a |title|, it is similar to a |@mvbook|
+  except that an upright shaped font is used for the |title| field.
+\end{function}
+When it includes a |shortseries| and |series| it functions as a container type
+for inserting a series into the list of abbreviations. Series entries are not
+included in the bibliography.
+
+\begin{function}{inseries}
+  A titled section in a book which is part of a series. This is similar to
+  |@inbook| except that it is formatted like an |@article| with the
+  |shortseries| replacing the |shortjournal| field.
+\end{function}
+
+\begin{function}{thesis}
+  A thesis written for an educational institution to satisfy the requirements
+  for a degree.  Use the |type| field to specify the type of thesis.
+\end{function}
+
+\begin{function}{unpublished}
+  A work with an author and a title which has not been formally published,
+  such as a manuscript or the script of a talk.
+\end{function}
+\pkg{biblatex-sbl} uses this type along with |type = {paper}| for citing a
+papers presented at a conference, but not published in formal proceedings.
+
+\begin{function}{video}
+  An audio visual recording or motion picture. In \pkg{biblatex-sbl} this type
+  supports an |invideo| entry sub type for citing extra features on something
+  like a DVD.
+\end{function}
+
+\begin{function}{xdata}
+  This entry type holds data which may be inherited by other entries using the
+  |xdata| field. Entries of this type only serve as data containers; they may
+  not be cited or added to the bibliography.
+\end{function}
+
+\subsection{Entry fields}
+
+This section documents custom fields for \pkg{biblatex-sbl}.
+
+\subsubsection{Literal fields}
+
+\begin{function}{datemodifier}
+  A modifier for the |date| of a bib entry. The will affect the string (if
+  any) used before a date is printed.
+\end{function}
+
+\begin{function}{definition}
+  The definition of an abbreviation. This is only used in the |@abbreviation|
+  entry type.
+\end{function}
+
+\begin{function}{parts}
+  The number of parts a work is published in. If an entry includes both a
+  |volumes| and a |parts| field, then this information is presented as
+  |volumes| vols.\ in |parts| parts. This order can be reversed by setting
+  |options = {partsinvols}|.
+\end{function}
+
+\begin{function}{printing}
+  The printing number of the specified edition of a publication.
+\end{function}
+
+\begin{function}{revdtitle}
+  The title of a book being reviewed.
+\end{function}
+
+\begin{function}{revdsubtitle}
+  The subtitle of a book being reviewed.
+\end{function}
+
+\begin{function}{revdshorttitle}
+  The title of a book being review in an abridged form. This field is used in
+  subsequent citations of |@review| entry types.
+\end{function}
+
+\begin{function}{text}
+  The number of a text withing a volume. This is only used the |@ancientttext|
+  entry type.
+\end{function}
+
+\begin{function}{translatedtitle}
+  The |title| of a work translated into the main document language when citing
+  the work by its original title.
+\end{function}
+
+\begin{function}{translatedshorttitle}
+  The |shorttitle| of a work translated into the main document language when
+  citing the work by its original title. This is used in subsequent citations.
+\end{function}
+
+\begin{function}{translatedsubtitle}
+  The |subtitle| of a work translated into the main document language when
+  citing the work by its original title.
+\end{function}
+
+\begin{function}{translatedbooktitle}
+  The |booktitle| of a work translated into the main document language when
+  citing the work by its original title.
+\end{function}
+
+\begin{function}{translatedbooksubtitle}
+  The |booksubtitle| of a work translated into the main document language when
+  citing the work by its original title.
+\end{function}
+
+\begin{function}{translatedmaintitle}
+  The |maintitle| of a work translated into the main document language when
+  citing the work by its original title.
+\end{function}
+
+\begin{function}{translatedmainsubtitle}
+  The |mainsubtitle| of a work translated into the main document language when
+  citing the work by its original title.
+\end{function}
+
+\begin{function}{website}
+  The name of a website. This could be the name of a blog, a website, or an
+  online database. 
+\end{function}
+
+\begin{function}{withauthortype}
+  The type of |withauthor|. This field will affect the string used to
+  introduce the author(s) who assist the |author|. If unspecified, the
+  bibliography string |with| is used.
+\end{function}
+
+\begin{function}{withbookauthortype}
+  The type of |withbookauthor|. This field will affect the string used to
+  introduce the author(s) who assist the |bookauthor|. If unspecified, the
+  bibliography string |with| is used.
+\end{function}
+
+\begin{function}{withmainauthortype}
+  The type of |withmainauthor|. This field will affect the string used to
+  introduce the author(s) who assist the |mainauthor|. If unspecified, the
+  bibliography string |with| is used.
+\end{function}
+
+\begin{function}{witheditortype}
+  The type of |witheditor|. This field will affect the string used to
+  introduce the editor(s) who assist the |editor|. If unspecified, the
+  bibliography string |with| is used.
+\end{function}
+
+\begin{function}{withbookeditortype}
+  The type of |withbookeditor|. This field will affect the string used to
+  introduce the editors(s) who assist the |bookeditor|. If unspecified, the
+  bibliography string |with| is used.
+\end{function}
+
+\begin{function}{withmaineditortype}
+  The type of |withmaineditor|. This field will affect the string used to
+  introduce the editors(s) who assist the |maineditor|. If unspecified, the
+  bibliography string |with| is used.
+\end{function}
+
+\begin{function}{xrefstring}
+  With and |@ancienttext| entry this modifies the string used to introduce the
+  entry specified in the |xref| field.
+\end{function}
+
+\subsubsection{Literal label fields}
+
+\begin{function}{shortmaintitle}
+  The |maintitle| in abridged form. This is only used by the |@ancienttext|
+  entry type.
+\end{function}
+
+\subsubsection{Name list fields}
+
+\begin{function}{bookeditor}
+  The editor(s) of the |booktitle|.
+
+  The behaviour of |editor|, |bookeditor|, and |maineditor| is as follows
+  (when |editor| is not used as the overall editor): |editor| applies to
+  |maintitle| (if set) unless |maineditor| is set. In this case, |editor|
+  applies to |booktitle| (if set) unless |bookeditor| is set. In this case,
+  |editor| applies to |title|.
+\end{function}
+
+\begin{function}{booktranslator}
+  The behaviour of |translator|, |booktranslator|, and |maintranslator| is the
+  same as for |editor|, |bookeditor|, and |maineditor|.
+\end{function}
+
+\begin{function}{mainauthor}
+  The author(s) of the |maintitle|.
+\end{function}
+
+\begin{function}{maineditor}
+  The editor(s) of the |maintitle|.
+\end{function}
+
+\begin{function}{maintranslator}
+  The translator(s) of the |maintitle|.
+\end{function}
+
+\begin{function}{preface}
+  The author(s) of the preface to the |title|.
+\end{function}
+
+\begin{function}{revdauthor}
+  The author(s) of the |revdtitle|.
+\end{function}
+
+\begin{function}{revdeditor}
+  The editor(s) of the |revdtitle|.
+\end{function}
+
+\begin{function}{withauthor}
+  The author(s) who assist the |author|.
+\end{function}
+
+\begin{function}{withbookauthor}
+  The author(s) who assist the |bookauthor|.
+\end{function}
+
+\begin{function}{withmainauthor}
+  The author(s) who assist the |mainauthor|.
+\end{function}
+
+\begin{function}{witheditor}
+  The editor(s) who assist the |editor|.
+\end{function}
+
+\begin{function}{withbookeditor}
+  The editor(s) who assist the |bookeditor|.
+\end{function}
+
+\begin{function}{withmaineditor}
+  The editor(s) who assist the |maineditor|.
+\end{function}
+
+\subsubsection{Name parts}
+
+\pkg{biblatex-sbl} supports the following custom name parts:
+
+\begin{function}{postnominal}
+  With extended name format, this can be used to specify post-nominals that
+  should be included in the name.
+\end{function}
+
+\begin{function}{shortfamily}
+  With extended name format, this can be used to specify a short family name
+  used in subsequent citations if different from a full family name used in
+  the first citation.
+\end{function}
+
+\subsection{Localisation strings}
+
+This section documents custom localisation strings for \pkg{biblatex-sbl}.
+
+\begin{function}{article}
+  The term `article', referring to an electronic article number stored in the
+  |eid| field.
+\end{function}
+
+\begin{function}{bydirector}
+  The expression `directed by meta{name}'.
+\end{function}
+
+\begin{function}{bytranslatorrev}
+  The expression `translated and revised by \meta{name}' or `translated from
+  \meta{language} and revised by \meta{name}'.
+\end{function}
+
+\begin{function}{director}
+  The term `director', referring to the director of a film.
+\end{function}
+
+\begin{function}{directors}
+  The plural form or |director|.
+\end{function}
+
+\begin{function}{fragment}
+  The term `fragment', referring to a fragment of a manuscript.
+\end{function}
+
+\begin{function}{fragments}
+  The plural form of |fragment|.
+\end{function}
+
+\begin{function}{obverse}
+  The term `obverse' (the front side of a manuscript).
+\end{function}
+
+\begin{function}{of}
+  The term `of'.
+\end{function}
+
+\begin{function}{paper}
+  The term `paper presented at'.
+\end{function}
+
+\begin{function}{parts}
+  The term `parts'.
+\end{function}
+
+\begin{function}{printing}
+  The term `printing'.
+\end{function}
+
+\begin{function}{released}
+  The term `released'.
+\end{function}
+
+\begin{function}{reverse}
+  The term `reverse' (the reverse side of a manuscript).
+\end{function}
+
+\begin{function}{series}
+  The term `series'.
+\end{function}
+
+\begin{function}{subverbis}
+  The term `sub verbis' (under the words), e.g., svv.
+\end{function}
+
+\begin{function}{subverbo}
+  The term `sub verbo' (under the word), e.g., sv.
+\end{function}
+
+\begin{function}{to}
+  The term `to'. Used in the |@suppbook| entry type between the supplementary
+  title and the book title.
+\end{function}
+
+\begin{function}{with}
+  The term `with' (the default type for |withauthor|, |witheditor| and
+  |withtranslator|).
+\end{function}
+
+\begin{function}{withassistance}
+  The term `with assistance from' (used with |withauthor|, |witheditor| and
+  |withtranslator|).
+\end{function}
+
+\begin{function}{withpreface}
+  The term `with preface by' (used to introduced the writer of a preface).
+\end{function}
 
 \end{document}

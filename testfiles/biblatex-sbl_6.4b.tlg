@@ -34,7 +34,7 @@ Completed box being shipped out [1]
 .....\pdfcolorstack 0 pop
 ...\glue 25.0
 ...\glue(\lineskip) 0.0
-...\vbox(550.0+0.0)x345.0, glue set 350.8425fil, direction TLT
+...\vbox(550.0+0.0)x345.0, glue set 350.72656fil, direction TLT
 ....\write-{}
 ....\pdfdest name{Doc-Start} xyz
 ....\glue(\topskip) 3.32
@@ -117,6 +117,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 B
 .....\pdfcolorstack 0 pop
 .....\pdfendlink
+.....\penalty 10000
 .....\glue(\spaceskip) 1.98 plus 0.98901 minus 0.66066
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 6
@@ -231,6 +232,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 B
 .....\pdfcolorstack 0 pop
 .....\pdfendlink
+.....\penalty 10000
 .....\glue(\spaceskip) 1.98 plus 0.98901 minus 0.66066
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 6
@@ -341,6 +343,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 B
 .....\pdfcolorstack 0 pop
 .....\pdfendlink
+.....\penalty 10000
 .....\glue(\spaceskip) 1.98 plus 0.98901 minus 0.66066
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 6
@@ -461,6 +464,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 B
 .....\pdfcolorstack 0 pop
 .....\pdfendlink
+.....\penalty 10000
 .....\glue(\spaceskip) 1.98 plus 0.98901 minus 0.66066
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 6
@@ -664,7 +668,7 @@ Completed box being shipped out [1]
 .....\glue(\parfillskip) 0.0 plus 1.0fil
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty -300
-....\glue 14.175 plus 4.05 minus 0.80998
+....\glue 14.20999 plus 4.06 minus 0.81198
 ....\glue(\parskip) 0.0 plus 1.0
 ....\glue(\parskip) 0.0
 ....\glue(\baselineskip) 5.92401
@@ -705,11 +709,11 @@ Completed box being shipped out [1]
 .....\glue(\parfillskip) 0.0 plus 1.0fil
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 10000
-....\glue 9.31502 plus 0.80998
+....\glue 9.338 plus 0.81198
 ....\pdfdest name{cite.0@VLB:26.2} xyz
 ....\penalty 10000
-....\glue -9.31502 plus -0.80998
-....\glue 9.31502 plus 0.80998
+....\glue -9.338 plus -0.81198
+....\glue 9.338 plus 0.81198
 ....\glue(\parskip) 0.0
 ....\glue(\parskip) 0.0
 ....\glue(\baselineskip) 5.1484
@@ -797,6 +801,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 B
 .....\pdfcolorstack 0 pop
 .....\pdfendlink
+.....\penalty 10000
 .....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 6
@@ -853,7 +858,7 @@ Completed box being shipped out [1]
 ......\glue 5.0
 .....\penalty 0
 .....\write1{\abx@aux@page{8}{\the \c@page }}
-.....\hbox(0.4+0.0)x30.0, glue set 30.0fill, shifted -2.43002, direction TLT
+.....\hbox(0.4+0.0)x30.0, glue set 30.0fill, shifted -2.43602, direction TLT
 ......\leaders 0.0 plus 1.0fill
 .......\rule(0.4+0.0)x*
 ......\kern0.0
@@ -907,6 +912,7 @@ Completed box being shipped out [1]
 .....\TU/Brill(0)/m/n/10 B
 .....\pdfcolorstack 0 pop
 .....\pdfendlink
+.....\penalty 10000
 .....\glue(\spaceskip) 1.98 plus 0.99 minus 0.66
 .....\TU/Brill(0)/m/n/10 2
 .....\TU/Brill(0)/m/n/10 6
@@ -942,7 +948,7 @@ Completed box being shipped out [1]
 ....\glue 2.47
 ....\glue 10.0 plus 3.0 minus 5.0
 ....\glue -10.0 plus -3.0 minus -5.0
-....\glue 14.175 plus 4.05 minus 0.80998
+....\glue 14.20999 plus 4.06 minus 0.81198
 ....\glue(\parskip) 0.0 plus 1.0
 ....\glue(\parskip) 0.0
 ....\glue(\baselineskip) 5.95401
@@ -990,7 +996,7 @@ Completed box being shipped out [1]
 .....\glue(\parfillskip) 0.0 plus 1.0fil
 .....\glue(\rightskip) 0.0 plus 1.0fil
 ....\penalty 10000
-....\glue 9.31502 plus 0.80998
+....\glue 9.338 plus 0.81198
 ....\glue(\parskip) 0.0
 ....\glue(\parskip) 0.0
 ....\glue(\baselineskip) 5.6984

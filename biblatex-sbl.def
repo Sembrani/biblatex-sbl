@@ -4,76 +4,66 @@
 
 % ## Set up the version strings
 
-\def\sbl@abx@date{2026-03-17}
-\def\sbl@abx@version{2.0}
+\def\sbl@abx@date{2026-04-04}
+\def\sbl@abx@version{2.0rc1}
 \def\sbl@abx@bbxid{\sbl@abx@date\space v\sbl@abx@version\space biblatex-sbl bibliography style (DCP)}
 \def\sbl@abx@cbxid{\sbl@abx@date\space v\sbl@abx@version\space biblatex-sbl citation style (DCP)}
 \def\sbl@abx@lbxid{\sbl@abx@date\space v\sbl@abx@version\space biblatex-sbl localization (DCP)}
+\def\sbl@abx@dbxid{\sbl@abx@date\space v\sbl@abx@version\space biblatex-sbl database structure (DCP)}
 
-\protected\def\sbl@blx@warning#1{%
-  \begingroup
-  \blx@safe@actives
-  \PackageWarning{biblatex-sbl}{#1}%
-  \endgroup}
+
+% ## Utilities
+
+% register sbl internal commands
+\protected\def\sbl@blx@regimc#1{%
+  \xappto\blx@blxinit{%
+    \let\noexpand#1\expandafter\noexpand\csname
+    sbl@blx@imc@\expandafter\@gobble\string#1\endcsname}}
+
+\protected\def\sbl@blx@regimcs#1{\sbl@blx@regimcs@i#1&}
+\def\sbl@blx@regimcs@i#1{%
+  \ifx#1&\else
+    \sbl@blx@regimc#1%
+    \expandafter\sbl@blx@regimcs@i
+  \fi}
 
 
 % ## Style options
 
-\DeclareBibliographyOption[string]{pagination}{%
-  \def\sbl@blx@pagination{#1}}
+\def\sbl@blx@nonlatintitleformat{title}
+\DeclareBiblatexOption{entry}[boolean]{nonlatintitle}[true]{%
+  \ifstrequal{#1}{true}
+    {\def\sbl@blx@nonlatintitleformat{nonlatin}}
+    {\def\sbl@blx@nonlatintitleformat{title}}}
 
-\DeclareBibliographyOption[string]{bookpagination}{%
-  \def\sbl@blx@bookpagination{#1}}
+\def\sbl@blx@nonlatinbooktitleformat{booktitle}
+\DeclareBiblatexOption{entry}[boolean]{nonlatinbooktitle}[true]{%
+  \ifstrequal{#1}{true}
+    {\def\sbl@blx@nonlatinbooktitleformat{nonlatin}}
+    {\def\sbl@blx@nonlatinbooktitleformat{booktitle}}}
 
-\newtoggle{sbl@blx@shorthandintro}
-\DeclareBibliographyOption[boolean]{shorthandintro}[true]{%
-  \settoggle{sbl@blx@shorthandintro}{#1}}
+\def\sbl@blx@nonlatinmaintitleformat{maintitle}
+\DeclareBiblatexOption{entry}[boolean]{nonlatinmaintitle}[true]{%
+  \ifstrequal{#1}{true}
+    {\def\sbl@blx@nonlatinmaintitleformat{nonlatin}}
+    {\def\sbl@blx@nonlatinmaintitleformat{maintitle}}}
+
+\newtoggle{sbl@blx@partsinvols}
+\DeclareBiblatexOption{entry}[boolean]{partsinvols}[true]{%
+  \settoggle{sbl@blx@partsinvols}{#1}}
+
+\def\sbl@blx@shorthandformat{shorthand}
+\DeclareBiblatexOption{entry}[string]{shorthandformat}{%
+  \def\sbl@blx@shorthandformat{#1}}
+
+\newtoggle{sbl@blx@usetitle}
+\DeclareBiblatexOption{type,entry}[boolean]{usetitle}[true]{%
+  \settoggle{sbl@blx@usetitle}{#1}}
 
 \newtoggle{sbl@blx@usexref}
 \toggletrue{sbl@blx@usexref}
 \DeclareBiblatexOption{entry}[boolean]{usexref}[true]{%
   \settoggle{sbl@blx@usexref}{#1}}
-
-\def\sbl@blx@shorthandformat{shorthand}
-\DeclareTypeOption[string]{shorthandformat}{%
-  \def\sbl@blx@shorthandformat{#1}}
-\DeclareEntryOption[string]{shorthandformat}{%
-  \def\sbl@blx@shorthandformat{#1}}
-
-\def\sbl@blx@nonenglishtitleformat{title}
-\DeclareBiblatexOption{entry}[boolean]{nonlatintitle}[true]{%
-  \ifstrequal{#1}{true}
-    {\def\sbl@blx@nonenglishtitleformat{nonlatin}}
-    {\def\sbl@blx@nonenglishtitleformat{title}}}
-
-\def\sbl@blx@nonenglishbooktitleformat{booktitle}
-\DeclareBiblatexOption{entry}[boolean]{nonlatinbooktitle}[true]{%
-  \ifstrequal{#1}{true}
-    {\def\sbl@blx@nonenglishbooktitleformat{nonlatin}}
-    {\def\sbl@blx@nonenglishbooktitleformat{booktitle}}}
-
-\def\sbl@blx@nonenglishmaintitleformat{maintitle}
-\DeclareBiblatexOption{entry}[boolean]{nonlatinmaintitle}[true]{%
-  \ifstrequal{#1}{true}
-    {\def\sbl@blx@nonenglishmaintitleformat{nonlatin}}
-    {\def\sbl@blx@nonenglishmaintitleformat{maintitle}}}
-
-\newtoggle{sbl@blx@usetitle}
-\DeclareTypeOption[boolean]{usetitle}[true]{%
-  \settoggle{sbl@blx@usetitle}{#1}}
-\DeclareEntryOption[boolean]{usetitle}[true]{%
-  \settoggle{sbl@blx@usetitle}{#1}}
-
-\newrobustcmd{\ifpaginationequalstr}[1]{%
-  \iffieldequalstr{pagination}{#1}
-    {\@firstoftwo}
-    {\ifboolexpr{
-       test {\ifcsstring{sbl@blx@pagination}{#1}}
-       and
-       test {\iffieldundef{pagination}}
-     }
-       {\@firstoftwo}
-       {\@secondoftwo}}}
 
 % idem settings
 \def\blx@opt@idemtracker@citation{%
@@ -101,7 +91,7 @@
   \fi}
 
 % set a field value
-\newrobustcmd{\setfield}[3][]{%
+\newrobustcmd*{\sbl@blx@imc@setfield}[3][]{%
   \ifstrequal{#1}{overwrite}
     {\csdef{abx@field@#2}{#3}}
     {\iffieldundef{#2}
@@ -109,10 +99,12 @@
        {}}}
 
 % test if bibmacro defined
-\newrobustcmd*{\ifdefbibmacro}[1]{%
+\newrobustcmd*{\sbl@blx@imc@ifdefbibmacro}[1]{%
   \ifcsdef{abx@macro@#1}
     {\@firstoftwo}
     {\@secondoftwo}}
+
+\sbl@blx@regimcs{\setfield \ifdefbibmacro}
 
 % preserve semicolons in page ranges (default uses \bibgrangessep)
 \begingroup
@@ -169,14 +161,14 @@
     {\@secondoftwo}}
 
 % define command to reset the name tracker
-\newrobustcmd*{\citeauthorreset}{%
+\newrobustcmd*{\sbl@blx@namereset@force}{%
   \global\cslet{sbl@blx@name@bsee@\the\c@refsection}\@empty
   \global\cslet{sbl@blx@name@fsee@\the\c@refsection}\@empty}
 
-% patch \citereset so that it also calls \citeauthorreset
+% patch \citereset so that it also resets the sbl name tracker
 \patchcmd{\citereset}
   {\blx@ibidreset@force}
-  {\citeauthorreset
+  {\sbl@blx@namereset@force
    \blx@ibidreset@force}
   {}
   {}
@@ -195,26 +187,28 @@
     {\csuse{sbl@blx@opt@nametracker@#1}}
     {\blx@err@invopt{nametracker=#1}{}}}
 \def\sbl@blx@opt@nametracker@true{%
-  \let\ifnameseen\sbl@blx@ifnameseen@global
-  \let\nametracker\sbl@blx@nametracker@global
+  \let\sbl@blx@imc@ifnameseen\sbl@blx@ifnameseen@global
+  \let\sbl@blx@imc@nametracker\sbl@blx@nametracker@global
   \booltrue{nametracker}}
 \def\sbl@blx@opt@nametracker@false{%
-  \let\ifnameseen\@secondoftwo
-  \let\nametracker\relax}
+  \let\sbl@blx@imc@ifnameseen\@secondoftwo
+  \let\sbl@blx@imc@nametracker\relax}
 \def\sbl@blx@opt@nametracker@context{%
-  \let\ifnameseen\sbl@blx@ifnameseen@context
-  \let\nametracker\sbl@blx@nametracker@context
+  \let\sbl@blx@imc@ifnameseen\sbl@blx@ifnameseen@context
+  \let\sbl@blx@imc@nametracker\sbl@blx@nametracker@context
   \booltrue{nametracker}}
 \def\sbl@blx@opt@nametracker@strict{%
-  \let\ifnameseen\sbl@blx@ifnameseen@global
-  \def\nametracker{%
+  \let\sbl@blx@imc@ifnameseen\sbl@blx@ifnameseen@global
+  \def\sbl@blx@imc@nametracker{%
     \blx@ifcitesingle{\sbl@blx@nametracker@global}{}}%
   \booltrue{nametracker}}
 \def\sbl@blx@opt@nametracker@constrict{%
-  \let\ifnameseen\sbl@blx@ifnameseen@context
-  \def\nametracker{%
+  \let\sbl@blx@imc@ifnameseen\sbl@blx@ifnameseen@context
+  \def\sbl@blx@imc@nametracker{%
     \blx@ifcitesingle{\sbl@blx@nametracker@context}{}}%
   \booltrue{nametracker}}
+
+\sbl@blx@regimcs{\ifnameseen \nametracker}
 
 
 % ## Bibliography record manipulation
@@ -277,6 +271,9 @@
       \pernottype{ancienttext}
       \step[fieldsource=title, match=\regexp{^(A|An|The)\s+(.+)}, final]
       \step[fieldset=shorttitle, fieldvalue={$2}]
+    }
+    \map{
+      \step[fieldsource=title, match=\regexp{^(A|An|The)\s+(.+)}, final]
       \step[fieldset=sorttitle, fieldvalue={$2}]
     }
     \map{
@@ -633,6 +630,10 @@
     {\addspace}
     {\addcolon\space
      \global\togglefalse{sbl@blx@addsubtitlepunct}}}
+\newcommand*{\seriesnumberdelim}{%
+  \iffieldundef{shortseries}
+    {\addspace}
+    {\addnbspace}}
 \newcommand*{\titleaddonpunct}{%
   \ifboolexpr{
     test {\ifentrytype{ancienttext}}
@@ -733,14 +734,14 @@
 
 % ## Field formats
 
-\DeclareFieldFormat[online,review,incommentary,inreference,inseries]{citetitle}{\mkbibquote{#1\isdot}}
+\DeclareFieldFormat[review,incommentary,inreference,inseries]{citetitle}{\mkbibquote{#1\isdot}}
 \DeclareFieldFormat[ancienttext]{citetitle}{%
   \begingroup
   \frenchspacing
   \ifboolexpr{
     test {\iffieldequalstr{entrysubtype}{inancientcollection}}
     or
-    test {\iffieldequalstr{entrysubtype}{inancienttext}}
+    test {\iffieldequalstr{entrysubtype}{inancientbook}}
   }
     {\mkbibquote{#1}}
     {\ifboolexpr{
@@ -752,6 +753,14 @@
        {\mkbibemph{#1}}}%
   \endgroup
   \isdot}
+\DeclareFieldFormat[online]{citetitle}{%
+  \ifboolexpr{
+    test {\iffieldequalstr{entrysubtype}{blog}}
+    and
+    test {\iffieldundef{website}}
+  }
+    {\mkbibemph{#1\isdot}}
+    {\mkbibquote{#1\isdot}}}
 \DeclareFieldFormat[video]{citetitle}{%
   \iffieldequalstr{entrysubtype}{invideo}
     {\mkbibquote{#1}}
@@ -816,12 +825,12 @@
   \endgroup
   \isdot}
 \DeclareFieldFormat[series]{shorthand}{#1}
-\DeclareFieldFormat[online,review,incommentary,inreference,inseries]{title}{\mkbibquote{#1}}
+\DeclareFieldFormat[review,incommentary,inreference,inseries]{title}{\mkbibquote{#1}}
 \DeclareFieldFormat[ancienttext]{title}{%
   \ifboolexpr{
     test {\iffieldequalstr{entrysubtype}{inancientcollection}}
     or
-    test {\iffieldequalstr{entrysubtype}{inancienttext}}
+    test {\iffieldequalstr{entrysubtype}{inancientbook}}
   }
     {\mkbibquote{#1}}
     {\ifboolexpr{
@@ -831,6 +840,14 @@
      }
        {#1}
        {\mkbibemph{#1}}}}
+\DeclareFieldFormat[online]{title}{%
+  \ifboolexpr{
+    test {\iffieldequalstr{entrysubtype}{blog}}
+    and
+    test {\iffieldundef{website}}
+  }
+    {\mkbibemph{#1}}
+    {\mkbibquote{#1}}}
 \DeclareFieldFormat[series]{title}{#1}
 \DeclareFieldFormat[video]{title}{%
   \iffieldequalstr{entrysubtype}{invideo}
@@ -1199,12 +1216,14 @@
   {}
 
 % \ifcrossrefseen{<true>}{<false>}
-\protected\def\ifcrossrefseen{%
+\protected\def\sbl@blx@imc@ifcrossrefseen{%
   \iffieldundef{crossref}
     {\@secondoftwo}
     {\ifentryseen{\thefield{crossref}}
        {\@firstoftwo}
        {\@secondoftwo}}}
+
+\sbl@blx@regimcs{\ifcrossrefseen}
 
 \def\sbl@blx@trackentry@global#1{%
   \ifbool{citetracker}
@@ -1235,7 +1254,23 @@
     \blx@postpunct@saved
   \fi}
 
-% use pagination option as default pagination
+% use pagination=none and bookpagination=page by default
+\def\sbl@blx@pagination{none}
+\def\sbl@blx@bookpagination{page}
+
+\newrobustcmd*{\sbl@blx@imc@ifpaginationequalstr}[1]{%
+  \iffieldequalstr{pagination}{#1}
+    {\@firstoftwo}
+    {\ifboolexpr{
+       test {\ifcsstring{sbl@blx@pagination}{#1}}
+       and
+       test {\iffieldundef{pagination}}
+     }
+       {\@firstoftwo}
+       {\@secondoftwo}}}
+
+\sbl@blx@regimcs{\ifpaginationequalstr}
+
 \xpatchcmd{\blx@imc@mkpageprefix}
   {\def\blx@tempa{\blx@mkpageprefix{page}}}
   {\ifcsstring{sbl@blx@#1}{none}
@@ -1276,7 +1311,7 @@
 \ExplSyntaxOn
 % this function ensures a field beginning with \pnfmt always gives true for
 % \ifbegpages
-\cs_new_protected:Nn \__sbl_blx_haspnfmt:n
+\cs_new_protected:Nn \__sblblx_haspnfmt:n
   {
     \tl_if_blank:nF { #1 }
       {
@@ -1284,23 +1319,25 @@
           { \def\sbl@blx@tempa { 1 } }
       }
   }
-\cs_generate_variant:Nn \__sbl_blx_haspnfmt:n { o }
-\cs_set_eq:NN \sbl@blx@haspnfmt \__sbl_blx_haspnfmt:o
+\cs_generate_variant:Nn \__sblblx_haspnfmt:n { o }
+\cs_set_eq:NN \sbl@blx@haspnfmt \__sblblx_haspnfmt:o
 \ExplSyntaxOff
 \def\sbl@blx@firstword#1{\sbl@blx@firstword@i#1 \@nil}
 \def\sbl@blx@firstword@i#1 #2\@nil{\unexpanded{#1}}%
-\protected\def\ifbegpages#1{%
+\protected\def\sbl@blx@imc@ifbegpages#1{%
   \edef\sbl@blx@tempa{\sbl@blx@firstword{#1}}%
   \sbl@blx@haspnfmt{\sbl@blx@tempa}%
   \expandafter\blx@imc@ifpages
     \expandafter{\sbl@blx@tempa}}
-\protected\def\iffieldbegpages#1{%
+\protected\def\sbl@blx@imc@iffieldbegpages#1{%
   \blx@imc@iffieldundef{#1}
     {\@secondoftwo}
     {\expandafter\expandafter
      \expandafter\ifbegpages
      \expandafter\expandafter
      \expandafter{\csname abx@field@#1\endcsname}}}
+
+\sbl@blx@regimcs{\ifbegpages \iffieldbegpages}
 
 % define macro to suppress formatting of postnote
 % (useful if you want 12,13 without a space)
@@ -1354,7 +1391,7 @@
 
 % Add ′ (prime) as number for Unicode engines
 \ExplSyntaxOn
-\bool_lazy_or:nnT \sys_if_engine_luatex_p: \sys_if_engine_xetex_p:
+\bool_lazy_or:nnT { \sys_if_engine_luatex_p: } { \sys_if_engine_xetex_p: }
   {
     \DeclareNumChars* { ′ }
   }
@@ -1363,7 +1400,7 @@
 %  Custom \mksubverbo command
 
 \ExplSyntaxOn
-\cs_new_protected:Nn \__sbl_blx_mksubverbo:n
+\cs_new_protected:Nn \__sblblx_mksubverbo:n
   {
     \bool_lazy_any:nTF
       {
@@ -1377,7 +1414,7 @@
         \clist_if_empty:NF \l_tmpa_clist
           {
             \int_set:Nn \l_tmpa_int { \clist_count:N \l_tmpa_clist }
-            \int_compare:nNnTF \l_tmpa_int = \c_one_int
+            \int_compare:nNnTF { \l_tmpa_int } = { \c_one_int }
               { \bibstring { subverbo } }
               { \bibstring { subverbis } }
             \ppspace
@@ -1392,11 +1429,12 @@
       }
   }
 
-\appto\blx@blxinit{%
-  \def\mksubverbo{\__sbl_blx_mksubverbo:n}}
+\appto \blx@blxinit
+  {
+    \def \mksubverbo { \__sblblx_mksubverbo:n }
+  }
 
 \ExplSyntaxOff
-
 
 
 % ## Bibliography
@@ -1414,14 +1452,10 @@
 
 \defbibcheck{bibliography}{%
   \sbl@blx@skipentries
-  \sbl@blx@forceskipentries
-  \sbl@blx@includeentries
 }
 
 \def\sbl@blx@skipentries{}
-\def\sbl@blx@forceskipentries{}
-\def\sbl@blx@includeentries{}
-\def\addskipentry#1{%
+\protected\def\sbl@blx@imc@addskipentry#1{%
   \edef\X{%
     \noexpand\ifboolexpr{
       test {\noexpand\iffieldequalstr{entrykey}{#1}}
@@ -1431,18 +1465,8 @@
       {\noexpand\toggletrue{blx@skipentry}}
       {}}%
   \expandafter\g@addto@macro\expandafter\sbl@blx@skipentries\expandafter{\X}}
-\def\addforceskipentry#1{%
-  \edef\X{%
-    \noexpand\iffieldequalstr{entrykey}{#1}
-      {\noexpand\toggletrue{blx@skipentry}}
-      {}}%
-  \expandafter\g@addto@macro\expandafter\sbl@blx@skipentries\expandafter{\X}}
-\def\addincludeentry#1{%
-  \edef\X{%
-    \noexpand\iffieldequalstr{entrykey}{#1}
-      {\noexpand\togglefalse{blx@skipentry}}
-      {}}%
-  \expandafter\g@addto@macro\expandafter\sbl@blx@includeentries\expandafter{\X}}
+
+\sbl@blx@regimcs{\addskipentry}
 
 
 % ## List of abbreviations
@@ -1493,19 +1517,34 @@
   }
 }
 
-\defbibenvironment{abbreviations}
-  {\list
-     {\usebibmacro{abbrev:printabbrev}}
-     {\usebibmacro{setabbrevwidth}%
-      \setlength{\labelwidth}{\abbrevwidth}%
-      \setlength{\leftmargin}{\labelwidth}%
-      \setlength{\labelsep}{\biblabelsep}%
-      \addtolength{\leftmargin}{\labelsep}%
-      \setlength{\itemsep}{\bibitemsep}%
-      \setlength{\parsep}{\bibparsep}%
-      \renewcommand*{\makelabel}[1]{##1\hss}}}
-  {\endlist}
-  {\item}
+\IfDocumentMetadataTF{
+  \defbibenvironment{abbreviations}
+    {\list[label-align=left]%
+       {\usebibmacro{abbrev:printabbrev}}
+       {\usebibmacro{setabbrevwidth}%
+        \setlength{\labelwidth}{\sblabbrevwidth}%
+        \setlength{\leftmargin}{\labelwidth}%
+        \setlength{\labelsep}{\biblabelsep}%
+        \addtolength{\leftmargin}{\labelsep}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}}}
+    {\endlist}
+    {\item}
+}{
+  \defbibenvironment{abbreviations}
+    {\list
+       {\usebibmacro{abbrev:printabbrev}}
+       {\usebibmacro{setabbrevwidth}%
+        \setlength{\labelwidth}{\sblabbrevwidth}%
+        \setlength{\leftmargin}{\labelwidth}%
+        \setlength{\labelsep}{\biblabelsep}%
+        \addtolength{\leftmargin}{\labelsep}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}%
+        \renewcommand*{\makelabel}[1]{##1\hss}}}
+    {\endlist}
+    {\item}
+}
 
 \defbibcheck{abbreviations}{%
   \iffieldundef{shorthand}
@@ -1525,26 +1564,28 @@
            \usebibmacro{abbrev:checkshortfield}{shortjournal}{journaltitle}}}}
     {}}
 
-\newlength{\abbrevwidth}
+\newlength{\sblabbrevwidth}
 
-\newcommand*{\setmaxlength}[2]{%
+\newcommand*{\sbl@blx@imc@setmaxlength}[2]{%
   \ifdim\dimexpr#2>\dimexpr#1
     \setlength{#1}{#2}%
   \fi}
 
+\sbl@blx@regimcs{\setmaxlength}
+
 \newbibmacro*{setabbrevwidth}{%
-  \setlength{\abbrevwidth}{0pt}%
-  \setmaxlength{\abbrevwidth}{\shorthandwidth}%
-  \setmaxlength{\abbrevwidth}{\shortserieswidth}%
-  \setmaxlength{\abbrevwidth}{\shortjournalwidth}%
-  \setmaxlength{\abbrevwidth}{\shorttitlewidth}%
+  \setlength{\sblabbrevwidth}{0pt}%
+  \setmaxlength{\sblabbrevwidth}{\shorthandwidth}%
+  \setmaxlength{\sblabbrevwidth}{\shortserieswidth}%
+  \setmaxlength{\sblabbrevwidth}{\shortjournalwidth}%
+  \setmaxlength{\sblabbrevwidth}{\shorttitlewidth}%
 }
 
 \ExplSyntaxOn
 
 \cs_set_eq:NN \sbl@blx@hash \str_mdfive_hash:e
 
-\cs_new_protected:Nn \__sbl_blx_combined_author_title:n
+\cs_new_protected:Nn \__sblblx_combined_author_title:n
   {
     \clist_map_inline:nn { #1 }
       {
@@ -1561,7 +1602,7 @@
 
 \newbibmacro* { abbrev:combined+author+title } [1]
   {
-    \exp_args:Ne \__sbl_blx_combined_author_title:n { #1 }
+    \exp_args:Ne \__sblblx_combined_author_title:n { #1 }
   }
 
 \ExplSyntaxOff
@@ -1889,7 +1930,7 @@
         \setunit{\subtitlepunct}%
         \printfield[titlecase]{subtitle}}}
        {\clearlist{language}%
-        \printtext[\sbl@blx@nonenglishtitleformat]{%
+        \printtext[\sbl@blx@nonlatintitleformat]{%
           \printfield[titlecase]{title}%
           \setunit{\subtitlepunct}%
           \printfield[titlecase]{subtitle}}%
@@ -1914,7 +1955,7 @@
         \printfield[titlecase]{booktitle}%
         \setunit{\subtitlepunct}%
         \printfield[titlecase]{booksubtitle}}}
-       {\printtext[\sbl@blx@nonenglishbooktitleformat]{%
+       {\printtext[\sbl@blx@nonlatinbooktitleformat]{%
           \printfield[titlecase]{booktitle}%
           \setunit{\subtitlepunct}%
           \printfield[titlecase]{booksubtitle}}%
@@ -1923,7 +1964,8 @@
           \printtext[booktitle]{%
             \printfield[titlecase]{translatedbooktitle}%
             \setunit{\subtitlepunct}%
-            \printfield[titlecase]{translatedbooksubtitle}}}}}%
+            \printfield[titlecase]{translatedbooksubtitle}}}}%
+      \setunit{\titleaddonpunct}}%
   \printfield{booktitleaddon}}
 
 \renewbibmacro*{maintitle}{%
@@ -1938,7 +1980,7 @@
         \printfield[titlecase]{maintitle}%
         \setunit{\subtitlepunct}%
         \printfield[titlecase]{mainsubtitle}}}
-       {\printtext[\sbl@blx@nonenglishmaintitleformat]{%
+       {\printtext[\sbl@blx@nonlatinmaintitleformat]{%
           \printfield[titlecase]{maintitle}%
           \setunit{\subtitlepunct}%
           \printfield[titlecase]{mainsubtitle}}%
@@ -1947,7 +1989,8 @@
           \printtext[maintitle]{%
             \printfield[titlecase]{translatedmaintitle}%
             \setunit{\subtitlepunct}%
-            \printfield[titlecase]{translatedmainsubtitle}}}}}%
+            \printfield[titlecase]{translatedmainsubtitle}}}}%
+      \setunit{\titleaddonpunct}}%
   \printfield{maintitleaddon}}
 
 \newbibmacro{booktitle+bybookauthor+bybookeditor}{%
@@ -2067,7 +2110,7 @@
      \usebibmacro{inseries}%
      \newunit
      \printfield{parts}}
-    {\ifnumgreater{\thefield{volumes}}{\thefield{parts}}
+    {\iftoggle{sbl@blx@partsinvols}
        {\printfield{parts}%
         \setunit{\addspace}%
         \printfield[involumes]{volumes}%
@@ -2226,7 +2269,7 @@
 % use shortseries if available
 \renewbibmacro*{series+number}{%
   \usebibmacro{abbrev:shortfield}{shortseries}{series}%
-  \setunit*{\addspace}%
+  \setunit*{\seriesnumberdelim}%
   \printfield{number}%
   \newunit}
 
@@ -2284,7 +2327,15 @@
   \usebibmacro{clearrecentlocations}%
   \usebibmacro{origpublisher+origlocation+origdate}%
   \usebibmacro{mergelists}{location}{publisher}{\locationpublisherdelim}{\publisherdelim}%
-  \setunit*{\addcomma\space}%
+  \ifboolexpr{
+    not test {\ifbibliography}
+    and
+    test {\iflistundef{location}}
+    and
+    test {\iflistundef{publisher}}
+  }
+    {\setunit*{\nopunct}}
+    {\setunit*{\addcomma\space}}%
   \usebibmacro{date}%
   \usebibmacro{pubstate}%
   \usebibmacro{reprint}%
@@ -2323,7 +2374,15 @@
     {}
     {\usebibmacro{clearrecentlocations}%
      \usebibmacro{mergelists}{origlocation}{origpublisher}{\locationpublisherdelim}{\publisherdelim}%
-     \setunit*{\addcomma\space}}%
+     \ifboolexpr{
+       not test {\ifbibliography}
+       and
+       test {\iflistundef{origlocation}}
+       and
+       test {\iflistundef{origpublisher}}
+     }
+       {\setunit*{\nopunct}}
+       {\setunit*{\addcomma\space}}}%
   \iffieldundef{origyear}
     {}
     {\usebibmacro{origdate}%
@@ -2535,6 +2594,15 @@
 
 
 % ## Related macros
+
+% make sure editor isn't printed before title when author is cleared in
+% related entry
+\xpatchbibmacro{related:default}
+  {\clearname{author}}
+  {\clearname{author}%
+   \renewbibmacro*{editor+others}{}}
+  {}
+  {}
 
 \newbibmacro*{related:reprint}[1]{%
   \entrydata*{#1}{%

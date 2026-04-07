@@ -86,20 +86,18 @@
     \printfield{postnote}}}
 
 \ExecuteBibliographyOptions{
-  bookpagination=page,
   citepages=omit,
   citetracker=context,
   dateabbrev=false,
   ibidtracker=false,
   idemtracker=citation,
+  isbn=false,
   language=american,
   maxbibnames=99,
   mincrossrefs=2,
   minxrefs=1,
   nametracker=context,
   pagetracker=true,
-  pagination=none,
-  shorthandintro=false,
   sorting=nwty,
   uniquework=true,
 }
@@ -111,6 +109,9 @@
 \ExecuteBibliographyOptions[book,collection,commentary,reference]{%
   usetitle
 }
+
+% SBL needs useprefix=true for citations, but not in sorting or bibliography
+\AtEveryCite{\toggletrue{blx@useprefix}}
 
 \RequirePackage[after=title]{biblatex-source-division}
 
@@ -155,37 +156,41 @@
 
 % Thanks to @moewe (https://tex.stackexchange.com/a/497548/87678)
 \ExplSyntaxOn
-\NewDocumentCommand \DeclareNestableCiteCommand { s m m }
+\cs_new_protected:Nn \__sblblx_declare_nestable_cite_command:nnn
   {
-    \cs_set_nopar:cpn { __sbl_cite_temp } ##1
+    \cs_set_nopar:cpn { __sblblx_cite_temp:n } ##1
       {
-        \blx@xsanitizeafter \blx@nocite@do { ##1 }
-        \blx@ifdata { ##1 }
+        \blx@xsanitizeafter \blx@nocite@do {##1}
+        \blx@ifdata {##1}
           {
             \begingroup
             \blx@blxinit
-            \entrydata{##1}{#3}
+            \entrydata {##1} {#3}
             \endgroup
           }
-          { \abx@missing@entry { ##1 } }
+          { \abx@missing@entry {##1} }
       }
-    \bool_if:nTF { #1 }
+    \bool_if:nTF {#1}
       {
-        \cs_set_eq:cc { __sbl_cite_star_#2 } { __sbl_cite_temp }
+        \cs_set_eq:cc { __sblblx_cite_star_#2:n } { __sblblx_cite_temp:n }
       }
       {
-        \cs_set_eq:cc { __sbl_cite_#2 } { __sbl_cite_temp }
+        \cs_set_eq:cc { __sblblx_cite_#2:n } { __sblblx_cite_temp:n }
       }
-    \cs_set_nopar:cpn { #2 }
+    \cs_set_nopar:cpn {#2}
       {
         \peek_meaning_remove:NTF *
           {
-            \cs_if_exist:cTF { __sbl_cite_star_#2 }
-              { \use:c { __sbl_cite_star_#2 } }
-              { \use:c { __sbl_cite_#2 } }
+            \cs_if_exist:cTF { __sblblx_cite_star_#2:n }
+              { \use:c { __sblblx_cite_star_#2:n } }
+              { \use:c { __sblblx_cite_#2:n } }
           }
-          { \use:c { __sbl_cite_#2 } }
+          { \use:c { __sblblx_cite_#2:n } }
       }
+  }
+\NewDocumentCommand \DeclareNestableCiteCommand { s m m }
+  {
+    \__sblblx_declare_nestable_cite_command:nnn {#1} {#2} {#3}
   }
 \ExplSyntaxOff
 
@@ -204,11 +209,8 @@
 \DeclareNestableCiteCommand{citeshorthand}
   {\usebibmacro{cite:shorthand}}
 
-\DeclareCiteCommand{\abbrev}
-  {}
-  {\cite{cite:shorthand}}
-  {\multicitedelim}
-  {}
+\DeclareNestableCiteCommand{abbrev}
+  {\usebibmacro{cite:shorthand}}
 
 \DeclareCiteCommand*{\cite}
   {\usebibmacro{prenote}}
@@ -267,6 +269,8 @@
   {\multicitedelim}
   {\usebibmacro{postnote}}
 
+\providecommand{\citefullauthor}{}
+\undef\citefullauthor
 \DeclareCiteCommand{\citefullauthor}
   {\boolfalse{citetracker}%
    \boolfalse{pagetracker}%
@@ -288,6 +292,12 @@
    \printnames[given-family][1-1]{labelname}}
   {\multicitedelim}
   {\usebibmacro{postnote}}
+
+\providecommand\Citefullauthor{}
+\renewrobustcmd*{\Citefullauthor}{%
+  \@ifstar{\bibsentence\citefullauthor*}{\bibsentence\citefullauthor}}
+\newrobustcmd*{\Citeshortauthor}{%
+  \@ifstar{\bibsentence\citeshortauthor*}{\bibsentence\citeshortauthor}}
 
 \DeclareCiteCommand{\citetitle}
   {\boolfalse{citetracker}%
@@ -353,10 +363,84 @@
   {\multicitedelim}
   {\usebibmacro{cite:postnote}}
 
-\DeclareCiteCommand*{\smartcite}[\iffootnote\mkbibparens\mkbibfootnote]
-  {\usebibmacro{prenote}}
+% \sblfootquotepunct is inserted at the end of a quotation immediately before
+% a citation to ensure punctuation is placed inside quotation if using us
+% style punctuation
+\newbool{sbl@blx@footquotesuppressperiod}
+\NewDocumentCommand\sblfootquotepunct{om}{%
+  \ifentryseen{#2}
+    {\IfNoValueF{#1}{#1}%
+     \global\boolfalse{sbl@blx@footquotesuppressperiod}}
+    {\blx@ifuspunct
+       {\IfNoValueTF{#1}{.}{#1}%
+        \global\booltrue{sbl@blx@footquotesuppressperiod}}
+       {\IfNoValueF{#1}
+          {#1\global\booltrue{sbl@blx@footquotesuppressperiod}}}}}
+
+% set a boolean flag to indicate we are inside a footnote from \smartcite
+\newbool{sbl@blx@footnote}
+\newrobustcmd\mksblsmartfootcite[1]{%
+  \begingroup
+  \blx@blxinit
+  \blx@setsfcodes
+  \booltrue{sbl@blx@footnote}%
+  #1%
+  \endgroup}
+
+% format the start of a smart citation
+%   - normal behaviour for \smartcite in running text and \smartcites
+%   - if in footnote
+%       - add `\addperiod\space` and set `prenote` to
+%         `\bibstring{see}` for first citation
+%       - add opening parenthesis for subsequent citation
+\newbibmacro{smartcitestart}{%
+  \ifboolexpr{
+    test {\ifnumequal\c@citetotal\@ne}
+    and
+    test {\ifnumequal\c@multicitetotal\z@}
+    and
+    bool {sbl@blx@footnote}
+  }
+    {\ifciteseen
+       {\bibopenparen}
+       {\ifbool{sbl@blx@footquotesuppressperiod}
+          {}
+          {\addperiod\space}%
+        \bibsentence
+        \setfield{prenote}{\bibstring{see}}}}
+    {}}
+
+% format the end of a smart citation
+%   - normal behaviour for \smartcite in running text and \smartcites
+%   - if in footnote
+%       - add closing parenthesis if parentheses are currently mismatched
+\newbibmacro{smartciteend}{%
+  \ifboolexpr{
+    test {\ifnumequal\c@citetotal\@ne}
+    and
+    test {\ifnumequal\c@multicitetotal\z@}
+    and
+    test {\ifnumgreater\c@parenlevel\z@}
+  }
+    {\bibcloseparen}
+    {}}
+
+% integrate \ifciteseen logic into \smartcite and \smartcite* in footnotes
+\DeclareCiteCommand{\smartcite}[\iffootnote\mksblsmartfootcite\mkbibfootnote]
+  {\usebibmacro{smartcitestart}%
+   \usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}%
+   \usebibmacro{smartciteend}}
+  {\multicitedelim}
+  {\usebibmacro{cite:postnote}}
+
+\DeclareCiteCommand*{\smartcite}[\iffootnote\mksblsmartfootcite\mkbibfootnote]
+  {\usebibmacro{smartcitestart}%
+   \usebibmacro{prenote}}
   {\usebibmacro{cite:star}%
-   \usebibmacro{cite}}
+   \usebibmacro{cite}%
+   \usebibmacro{smartciteend}}
   {\multicitedelim}
   {\usebibmacro{cite:postnote}}
 
@@ -392,6 +476,34 @@
 \newrobustcmd*{\ftvolfullcites}{\multivolcitecmd\ftfullcites}
 \newrobustcmd*{\svolfullcites}{\multivolcitecmd\sfullcites}
 \newrobustcmd*{\avolfullcites}{\multivolcitecmd\afullcites}
+
+\newrobustcmd*{\Fullcite}{\fullcitecmd\Cite}
+\newrobustcmd*{\Pfullcite}{\fullcitecmd\Parencite}
+\newrobustcmd*{\Ffullcite}{\fullcitecmd\Footcite}
+\newrobustcmd*{\Ftfullcite}{\fullcitecmd\Footcitetext}
+\newrobustcmd*{\Sfullcite}{\fullcitecmd\Smartcite}
+\newrobustcmd*{\Afullcite}{\fullcitecmd\Autocite}
+
+\newrobustcmd*{\Fullcites}{\fullcitecmd\Cites}
+\newrobustcmd*{\Pfullcites}{\fullcitecmd\Parencites}
+\newrobustcmd*{\Ffullcites}{\fullcitecmd\Footcites}
+\newrobustcmd*{\Ftfullcites}{\fullcitecmd\Footcitetext}
+\newrobustcmd*{\Sfullcites}{\fullcitecmd\Smartcites}
+\newrobustcmd*{\Afullcites}{\fullcitecmd\Autocites}
+
+\newrobustcmd*{\Volfullcite}{\volcitecmd\Fullcite}
+\newrobustcmd*{\Pvolfullcite}{\volcitecmd\Pfullcite}
+\newrobustcmd*{\Fvolfullcite}{\volcitecmd\Ffullcite}
+\newrobustcmd*{\Ftvolfullcite}{\volcitecmd\Ftfullcite}
+\newrobustcmd*{\Svolfullcite}{\volcitecmd\Sfullcite}
+\newrobustcmd*{\Avolfullcite}{\volcitecmd\Afullcite}
+
+\newrobustcmd*{\Volfullcites}{\multivolcitecmd\Fullcites}
+\newrobustcmd*{\Pvolfullcites}{\multivolcitecmd\Pfullcites}
+\newrobustcmd*{\Fvolfullcites}{\multivolcitecmd\Ffullcites}
+\newrobustcmd*{\Ftvolfullcites}{\multivolcitecmd\Ftfullcites}
+\newrobustcmd*{\Svolfullcites}{\multivolcitecmd\Sfullcites}
+\newrobustcmd*{\Avolfullcites}{\multivolcitecmd\Afullcites}
 
 % Define transcite commands to cite @ancienttext entry types with a translator
 
@@ -430,6 +542,34 @@
 \newrobustcmd*{\transcitecollection}{\transcitecmd\citecollection}
 \newrobustcmd*{\ptranscitecollection}{\transcitecmd\parencitecollection}
 
+\newrobustcmd*{\Transcite}{\transcitecmd\Cite}
+\newrobustcmd*{\Ptranscite}{\transcitecmd\Parencite}
+\newrobustcmd*{\Ftranscite}{\transcitecmd\Footcite}
+\newrobustcmd*{\Fttranscite}{\transcitecmd\Footcitetext}
+\newrobustcmd*{\Stranscite}{\transcitecmd\Smartcite}
+\newrobustcmd*{\Atranscite}{\transcitecmd\Autocite}
+
+\newrobustcmd*{\Transcites}{\transcitecmd\Cites}
+\newrobustcmd*{\Ptranscites}{\transcitecmd\Parencites}
+\newrobustcmd*{\Ftranscites}{\transcitecmd\Footcites}
+\newrobustcmd*{\Fttranscites}{\transcitecmd\Footcitetexts}
+\newrobustcmd*{\Stranscites}{\transcitecmd\Smartcites}
+\newrobustcmd*{\Atranscites}{\transcitecmd\Autocites}
+
+\newrobustcmd*{\Voltranscite}{\volcitecmd\Transcite}
+\newrobustcmd*{\Pvoltranscite}{\volcitecmd\Ptranscite}
+\newrobustcmd*{\Fvoltranscite}{\volcitecmd\Ftranscite}
+\newrobustcmd*{\Ftvoltranscite}{\volcitecmd\Fttranscite}
+\newrobustcmd*{\Svoltranscite}{\volcitecmd\Stranscite}
+\newrobustcmd*{\Avoltranscite}{\volcitecmd\Atranscite}
+
+\newrobustcmd*{\Voltranscites}{\multivolcitecmd\Transcites}
+\newrobustcmd*{\Pvoltranscites}{\multivolcitecmd\Ptranscites}
+\newrobustcmd*{\Fvoltranscites}{\multivolcitecmd\Ftranscites}
+\newrobustcmd*{\Ftvoltranscites}{\multivolcitecmd\Fttranscites}
+\newrobustcmd*{\Svoltranscites}{\multivolcitecmd\Stranscites}
+\newrobustcmd*{\Avoltranscites}{\multivolcitecmd\Atranscites}
+
 % transcite and fullcite variants
 \newrobustcmd*{\transfullcite}{\transcitecmd\fullcite}
 \newrobustcmd*{\ptransfullcite}{\transcitecmd\pfullcite}
@@ -459,6 +599,34 @@
 \newrobustcmd*{\svoltransfullcites}{\multivolcitecmd\stransfullcites}
 \newrobustcmd*{\avoltransfullcites}{\multivolcitecmd\atransfullcites}
 
+\newrobustcmd*{\Transfullcite}{\transcitecmd\Fullcite}
+\newrobustcmd*{\Ptransfullcite}{\transcitecmd\Pfullcite}
+\newrobustcmd*{\Ftransfullcite}{\transcitecmd\Ffullcite}
+\newrobustcmd*{\Fttransfullcite}{\transcitecmd\Ftfullcite}
+\newrobustcmd*{\Stransfullcite}{\transcitecmd\Sfullcite}
+\newrobustcmd*{\Atransfullcite}{\transcitecmd\Afullcite}
+
+\newrobustcmd*{\Transfullcites}{\transcitecmd\Fullcites}
+\newrobustcmd*{\Ptransfullcites}{\transcitecmd\Pfullcites}
+\newrobustcmd*{\Ftransfullcites}{\transcitecmd\Ffullcites}
+\newrobustcmd*{\Fttransfullcites}{\transcitecmd\Ftfullcites}
+\newrobustcmd*{\Stransfullcites}{\transcitecmd\Sfullcites}
+\newrobustcmd*{\Atransfullcites}{\transcitecmd\Afullcites}
+
+\newrobustcmd*{\Voltransfullcite}{\volcitecmd\Transfullcite}
+\newrobustcmd*{\Pvoltransfullcite}{\volcitecmd\Ptransfullcite}
+\newrobustcmd*{\Fvoltransfullcite}{\volcitecmd\Ftransfullcite}
+\newrobustcmd*{\Ftvoltransfullcite}{\volcitecmd\Fttransfullcite}
+\newrobustcmd*{\Svoltransfullcite}{\volcitecmd\Stransfullcite}
+\newrobustcmd*{\Avoltransfullcite}{\volcitecmd\Atransfullcite}
+
+\newrobustcmd*{\Voltransfullcites}{\multivolcitecmd\Transfullcites}
+\newrobustcmd*{\Pvoltransfullcites}{\multivolcitecmd\Ptransfullcites}
+\newrobustcmd*{\Fvoltransfullcites}{\multivolcitecmd\Ftransfullcites}
+\newrobustcmd*{\Ftvoltransfullcites}{\multivolcitecmd\Fttransfullcites}
+\newrobustcmd*{\Svoltransfullcites}{\multivolcitecmd\Stransfullcites}
+\newrobustcmd*{\Avoltransfullcites}{\multivolcitecmd\Atransfullcites}
+
 
 % main citation macros
 
@@ -478,11 +646,7 @@
      \ifboolexpr{
        test {\ifciteseen}
        or
-       (
-         not test {\iffieldundef{shorthand}}
-         and
-         not togl {sbl@blx@shorthandintro}
-       )
+       not test {\iffieldundef{shorthand}}
        or
        test {\ifentrytype{series}}
      }
@@ -510,7 +674,11 @@
        {\ifciteidem
           {\DeclareNameAlias{default}{labelname}}
           {}%
-        \ifcrossrefseen
+        \ifboolexpr{
+          test {\ifcrossrefseen}
+          and
+          test {\ifdefbibmacro{cite:full:\thefield{entrytype}:seen}}
+        }
          {\usebibmacro{cite:full:citepages}%
           \printtext[bibhypertarget]{\usebibmacro*{cite:full:\thefield{entrytype}:seen}}}
          {\ifentrytype{ancienttext}
@@ -589,8 +757,8 @@
     {}
     {\newunit
      \iffieldundef{type}
-       {\printfield[shorttitlelink]{website}}
-       {\printfield[shorttitlelink]{type}}}%
+       {\printtext[shorttitlelink]{\printfield{website}}}
+       {\printtext[shorttitlelink]{\printfield{type}}}}%
   \endgroup}
 
 \newbibmacro*{cite:short:review}{%

@@ -551,13 +551,11 @@
 @series{LSTS,
   series = {Library of Second Temple Studies},
   shortseries = {LSTS},
-  options = {skipbib}
 }
 
 @series{SSEJC,
   series = {Studies in Scripture in Early Judaism and Christianity},
   shortseries = {SSEJC},
-  options = {skipbib}
 }
 
 @book{pritchard:1969,
@@ -1288,7 +1286,7 @@
   publisher = {Vogel},
   date = {1918/1929},
   pagination = {section},
-  options = {shorthandformat=roman},
+  options = {shorthandformat=roman, partsinvols},
   langid = {german}
 }
 
@@ -2527,7 +2525,7 @@
 }
 
 @ancienttext{eusebius:constantine,
-  entrysubtype = {inancienttext},
+  entrysubtype = {inancientbook},
   author = {{Eusebius of Caesarea}},
   title = {The Life of Constantine},
   translator = {Richardson, Ernest Cushing},
@@ -2710,7 +2708,7 @@
 @online{wilhelm:2013,
   editor = {Wilhelm, Gernot},
   title = {Der Vertrag Šuppiluliumas I. von Ḫatti mit Šattiwazza von Mitrani \mkbibparens{CTH 51.I}},
-  shorttitle = {Der Vertrag Šuppiluliumas I.},
+  shorttitle = {Der Vertrag Šuppiluliumas I\adddot},
   datemodifier = {released},
   date = {2013-02-24},
   eprinttype = {hethiter},
@@ -2836,7 +2834,8 @@
   location = {Leiden},
   publisher = {Brill},
   date = {2015},
-  options = {shorthandformat=roman}
+  options = {shorthandformat=roman},
+  pagination = {subverbo}
 }
 
 @inbook{moore:2017,
@@ -3124,13 +3123,13 @@
 
 @misc{barbour:seealso,
   author = {Barbour, Jennie},
-  title = {See also \mkbibemph{Grillo, Jennie}},
+  title = {\biblstring{seealso} \mkbibemph{Grillo, Jennie}},
   sorttitle = {zzz}
 }
 
 @misc{grillo:seealso,
   author = {Grillo, Jennie},
-  title = {See also \mkbibemph{Barbour, Jennie}},
+  title = {\biblstring{seealso} \mkbibemph{Barbour, Jennie}},
   sortyear = {zzz}
 }
 
@@ -3638,12 +3637,14 @@
 @reference{webster11,
   title = {Merriam-Webster’s Collegiate Dictionary},
   edition = {11},
+  pagination = {subverbo},
   options = {skipbib}
 }
 
 @reference{oxford2,
   title = {Oxford English Dictionary},
   edition = {2},
+  pagination = {subverbo},
   options = {skipbib}
 }
 
@@ -3651,6 +3652,7 @@
   shorthand = {OED},
   title = {Oxford English Dictionary},
   edition = {2},
+  pagination = {subverbo},
   options = {skipbib}
 }
 
@@ -4803,19 +4805,16 @@
 }
 
 @abbreviation{abl,
-  entrysubtype = {abbreviation},
   shorthand = {abl.},
   definition = {ablative}
 }
 
 @abbreviation{>,
-  entrysubtype = {sigla},
   shorthand = {>},
   definition = {omits the lemma}
 }
 
 @abbreviation{SRI,
-  entrysubtype = {acronym},
   shorthand = {SRI},
   definition = {sociorhetorical interpretation}
 }
@@ -5484,7 +5483,7 @@
   pages = {546-548}
 }
 
-@commentary{rad:1990,
+@commentary{vonrad:1990,
   author = {von Rad, Gerhard},
   title = {Genesis: A Commentary},
   translator = {Marks, John H.},

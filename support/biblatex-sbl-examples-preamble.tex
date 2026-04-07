@@ -8,21 +8,43 @@
 \setcounter{tocdepth}{1}
 \RecustomVerbatimEnvironment{verbatim}{Verbatim}{backgroundcolor=black!15,fontsize=\small}
 \setcounter{secnumdepth}{0}
-\usepackage[american, bidi=basic]{babel}
-\babelprovide[import, onchar=ids]{polytonicgreek}
-\babelprovide[import, onchar=ids]{russian}
+\usepackage{fontspec}
+\usepackage[bidi=basic]{babel}
+\babelprovide[import, language=Default, main]{american}
+\babelprovide[import, language=Default, onchar=ids]{polytonicgreek}
+\babelprovide[import, language=Default, onchar=ids]{russian}
 \babelprovide[import, onchar=ids fonts]{armenian}
 \babelprovide[import, onchar=ids fonts]{hebrew}
 \babelprovide[import, onchar=ids fonts]{syriac}
-\babelfont{rm}[Numbers=Lining]{Brill}
+\IfFontExistsTF{Brill}
+  {\babelfont{rm}{Brill}}
+  {\babelfont{rm}[Numbers=OldStyle]{Alegreya}}
+\babelfont{sf}[Scale=MatchLowercase]{Latin Modern Sans}
 \babelfont{tt}[Scale=MatchLowercase]{DejaVu Sans Mono}
-\babelfont[armenian]{rm}[Scale=0.85]{Noto Serif Armenian}
-\babelfont[hebrew]{rm}[Scale=MatchLowercase, Contextuals=Alternate]{SBL Hebrew}
-\babelfont[syriac]{rm}[Scale=MatchLowercase]{Estrangelo Edessa}
-\babelfont[hebrew]{tt}[Scale=MatchLowercase]{Miriam Libre Medium}
-\babelfont[syriac]{tt}[Scale=0.85]{Noto Sans Syriac}
+\IfFontExistsTF{Noto Serif Armenian}
+  {\babelfont[armenian]{rm}[Scale=0.85]{Noto Serif Armenian}}
+  {\babelfont[armenian]{rm}[Scale=0.85]{DejaVu Serif}}
+\IfFontExistsTF{SBL Hebrew}
+  {\babelfont[hebrew]{rm}[Scale=MatchLowercase]{SBL Hebrew}}
+  {\IfFontExistsTF{SBL BibLit}
+     {\babelfont[hebrew]{rm}[Scale=MatchLowercase]{SBL BibLit}}
+     {\babelfont[hebrew]{rm}[Scale=MatchLowercase]{Frank Ruehl CLM}}}
+\IfFontExistsTF{Estrangelo Edessa}
+  {\babelfont[syriac]{rm}[Scale=MatchLowercase]{Estrangelo Edessa}}
+  {\babelfont[syriac]{rm}[Scale=MatchLowercase]{Free Sans}}
+\IfFontExistsTF{Miriam Libre Medium}
+  {\babelfont[hebrew]{tt}[Scale=MatchLowercase]{Miriam Libre Medium}}
+  {\babelfont[hebrew]{tt}[Scale=MatchLowercase]{Miriam Mono CLM}}
+\IfFontExistsTF{Noto Sans Syriac}
+  {\babelfont[syriac]{tt}[Scale=0.85]{Noto Sans Syriac}}
+  {\babelfont[syriac]{rm}[Scale=MatchLowercase]{Free Sans}}
+\usepackage{realscripts}
 \usepackage{csquotes}
-\usepackage[colorlinks]{hyperref}
+\makeatletter
+\@ifpackageloaded{hyperref}
+  {}
+  {\usepackage[colorlinks]{hyperref}}
+\makeatother
 \usepackage[style=sbl, refsection=subsection+, locallabelwidth, citetracker=true]{biblatex}
 \addbibresource{biblatex-sbl.bib}
 
@@ -30,14 +52,19 @@
 
 \colorlet{cmdcolour}{black!65}
 
-\newcommand*{\pkg}[1]{\textsf{#1}}
+\providecommand*{\pkg}[1]{\textsf{#1}}
+
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\normalsize\scshape}}
 
 \ExplSyntaxOn
 % Thanks to https://tex.stackexchange.com/a/44444/87678
 \cs_new_protected:Npn \sblhsblog_verb_print:n #1
   {
     \tl_set:Nn \l_tmpa_tl {#1}
-    \regex_replace_all:nnN { . } { \c{string} \0 } \l_tmpa_tl
+    \regex_replace_all:nnN { . } { \c{ string } \0 } \l_tmpa_tl
     \tl_set:Nx \l_tmpb_tl { \l_tmpa_tl }
     \tl_use:N \l_tmpb_tl
   }
@@ -90,8 +117,8 @@
   \citeauthor{#1}%
 }
 
-% \examplecite(<footnote number>){<citetype>}[<prenote>][<postnote>]{entryid}
-% \examplecite*(<footnote number>){<citetype>}[<prenote>][<postnote>]{entryid}
+% \examplecite[<citetype>](<footnote number>)[<prenote>][<postnote>]{entryid}
+% \examplecite*[<citetype>](<footnote number>)[<prenote>][<postnote>]{entryid}
 \NewDocumentCommand{\examplecite}{sO{auto}d()oom}{%
   \par
   \textcolor{cmdcolour}{%
@@ -107,8 +134,8 @@
     {\printexamplecite*{#2cite}{#4}{#5}{#6}}
     {\printexamplecite{#2cite}{#4}{#5}{#6}}}
 
-% \examplevolcite(<footnote number>){<citetype>}[<prenote>]{<volume>}[<postnote>]{entryid}
-% \examplevolcite*(<footnote number>){<citetype>}[<prenote>]{<volume>}[<postnote>]{entryid}
+% \examplevolcite[<citetype>](<footnote number>)[<prenote>]{<volume>}[<postnote>]{entryid}
+% \examplevolcite*[<citetype>](<footnote number>)[<prenote>]{<volume>}[<postnote>]{entryid}
 \NewDocumentCommand{\examplevolcite}{sO{a}d()omom}{%
   \par
   \textcolor{cmdcolour}{%
@@ -213,7 +240,7 @@
   \par
   \textcolor{cmdcolour}{%
     \texttt{\textbackslash printbiblist[heading=subbibliography, title=Secondary Sources,\\
-      \strut\quad nottype=ancienttext]\{abbreviations\}}}
+      \strut\quad nottype=ancienttext, nottype=abbreviation]\{abbreviations\}}}
   \@afterheading
   \printbiblist[heading=subbibliography, title=Secondary Sources,
     nottype=ancienttext, nottype=abbreviation]{abbreviations}}

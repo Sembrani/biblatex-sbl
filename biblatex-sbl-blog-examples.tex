@@ -55,7 +55,8 @@ now omit the location for all examples as required.
   location = {Leiden},
   publisher = {Brill},
   date = {2015},
-  options = {shorthandformat=roman}
+  options = {shorthandformat=roman},
+  pagination = {subverbo}
 }
 \end{verbatim}
 
@@ -332,8 +333,8 @@ now omit the location for all examples as required.
 }
 
 @periodical{BibInt,
-  journaltitle = {Biblical Interpretation},
-  shortjournal = {BibInt}
+  title = {Biblical Interpretation},
+  shorttitle = {BibInt}
 }
 
 @series{BibIntSeries,
@@ -342,8 +343,8 @@ now omit the location for all examples as required.
 }
 
 @periodical{BSac,
-  journaltitle = {Bibliotheca Sacra},
-  shortjournal = {BSac}
+  title = {Bibliotheca Sacra},
+  shorttitle = {BSac}
 }
 
 @series{JSOTSup,
@@ -397,13 +398,11 @@ now omit the location for all examples as required.
 }
 
 @abbreviation{abl,
-  entrysubtype = {abbreviation},
   shorthand = {abl.},
   definition = {ablative}
 }
 
 @abbreviation{>,
-  entrysubtype = {sigla},
   shorthand = {>},
   definition = {omits the lemma}
 }
@@ -749,13 +748,13 @@ now omit the location for all examples as required.
 
 @misc{barbour:seealso,
   author = {Barbour, Jennie},
-  title = {See also \mkbibemph{Grillo, Jennie}},
+  title = {\biblstring{seealso} \mkbibemph{Grillo, Jennie}},
   sorttitle = {zzz}
 }
 
 @misc{grillo:seealso,
   author = {Grillo, Jennie},
-  title = {See also \mkbibemph{Barbour, Jennie}},
+  title = {\biblstring{seealso} \mkbibemph{Barbour, Jennie}},
   sortyear = {zzz}
 }
 
@@ -1895,7 +1894,7 @@ for \emph{NTApoc}.
 }
 
 @ancienttext{eusebius:constantine,
-  entrysubtype = {inancienttext},
+  entrysubtype = {inancientbook},
   author = {{Eusebius of Caesarea}},
   title = {The Life of Constantine},
   translator = {Richardson, Ernest Cushing},
@@ -2666,12 +2665,14 @@ handbook (as in the case of the \citetitle*{treu} above).
 @reference{webster11,
   title = {Merriam-Webster’s Collegiate Dictionary},
   edition = {11},
+  pagination = {subverbo},
   options = {skipbib}
 }
 
 @reference{oxford2,
   title = {Oxford English Dictionary},
   edition = {2},
+  pagination = {subverbo},
   options = {skipbib}
 }
 
@@ -2679,13 +2680,14 @@ handbook (as in the case of the \citetitle*{treu} above).
   shorthand = {OED},
   title = {Oxford English Dictionary},
   edition = {2},
+  pagination = {subverbo},
   options = {skipbib}
 }
 \end{verbatim}
 
-\examplecite[][\sv~\mkbibquote{pericope}]{webster11}
-\examplecite[][\sv~\mkbibquote{pericope}]{oxford2}
-\examplecite[][\sv~\mkbibquote{pericope}]{OED2}
+\examplecite[][pericope]{webster11}
+\examplecite[][pericope]{oxford2}
+\examplecite[][pericope]{OED2}
 \exampleabbreviations
 \examplereferences{https://sblhs2.com/2017/05/16/citing-reference-works-8-english-language-dictionaries/}
 
@@ -2739,6 +2741,13 @@ handbook (as in the case of the \citetitle*{treu} above).
 \examplesecondarysources
 \examplebibliography
 \examplereferences{https://sblhs2.com/2017/05/11/musonius-rufus/}
+
+\subsection{Notes}
+
+\begin{itemize}
+  \item It is assumed that the italicised \emph{YCS} in the blog is an error
+    since Yale Classical Studies is a series, not a journal.
+\end{itemize}
 
 \section{Historia Augusta (9 May 2017)}
 
@@ -3093,7 +3102,7 @@ handbook (as in the case of the \citetitle*{treu} above).
   publisher = {Vogel},
   date = {1918/1929},
   pagination = {section},
-  options = {shorthandformat=roman},
+  options = {shorthandformat=roman, partsinvols},
   langid = {german}
 }
 
@@ -4549,14 +4558,12 @@ handbook (as in the case of the \citetitle*{treu} above).
 
 @series{LSTS,
   series = {Library of Second Temple Studies},
-  shortseries = {LSTS},
-  options = {skipbib}
+  shortseries = {LSTS}
 }
 
 @series{SSEJC,
   series = {Studies in Scripture in Early Judaism and Christianity},
-  shortseries = {SSEJC},
-  options = {skipbib}
+  shortseries = {SSEJC}
 }
 \end{verbatim}
 
@@ -5244,8 +5251,8 @@ this feature by default. See
 }
 
 @periodical{WoB,
-  journaltitle = {The World of the Bible},
-  shortjournal = {WoB}
+  title = {The World of the Bible},
+  shorttitle = {WoB}
 }
 
 @article{cannuyer:2016,
@@ -5968,10 +5975,14 @@ that they may not even need a bib entry.
   be translated “evil,” based on an Arabic cognate
   \mkbibparens{\cite*[243]{gordon:1953}; \cite[see also][376]{gordon:1965}}.}
 \end{fverbcite}
-\begin{fverbcite}{77}
-  This is in line with \citeauthor*{desilva:1998}’s treatment of Rev 2–3 as
-  part of the text’s use of honor discourse. \cite[See][]{desilva:1998}.
-\end{fverbcite}
+\begin{verbtext}
+  \footnote{This is in line with \citeshortauthor{desilva:1998}’s treatment of
+  Rev 2–3 as part of the text’s use of honor discourse
+  \autocite{desilva:1998}.}
+\end{verbtext}
+\quad 77.\space\strut This is in line with \citeshortauthor{desilva:1998}’s
+treatment of Rev 2–3 as part of the text’s use of honor discourse.
+\cite[See][]{desilva:1998}.
 \examplecite(52){richards:1965}
 \begin{fverbcite}{53}
   \footnote{It is interesting to note that Richards also seems to anticipate
